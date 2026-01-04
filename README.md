@@ -30,11 +30,13 @@ Chega de perder tempo com complicações desnecessárias, criações de códigos
 ## RakStar vs Pawn - Comando para envio de mensagem privada:
 **Código Pawn:**
 
-![image](https://github.com/goseventh/rakstar/assets/66482679/8e309022-f5c5-4d2d-b2c8-7828b18c9d07)
+<img width="820" height="995" alt="image" src="https://github.com/user-attachments/assets/3f944417-54c0-4e08-a460-268f0b5289c7" />
+
 
 ✨ **Código RakStar:**
 
-![image](https://github.com/goseventh/rakstar/assets/66482679/c7e2bac2-4530-4a22-8454-634c03c1c2cd)
+<img width="820" height="1117" alt="image" src="https://github.com/user-attachments/assets/74c83dc6-d2aa-4896-8916-1cc5ea537825" />
+
 
 
 ## 🚧 Desenvolvimento

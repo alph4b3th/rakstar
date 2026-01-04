@@ -1,0 +1,12 @@
+{
+	"files.associations": {
+		"*.go": "go",
+		"main.h": "c",
+		"sampgdk.h": "c",
+		"amx.h": "c"
+	},
+	"go.toolsEnvVars": {
+		"GOARCH": "386",
+		"CGO_ENABLED": "1"
+	}
+}

@@ -1,6 +1,8 @@
 package events
 
-import "github.com/alph4b3th/rakstar/internal/callbacks"
+import (
+	"github.com/alph4b3th/rakstar/internal/callbacks"
+)
 
 type Event struct {
 	handler interface{}
@@ -15,8 +17,8 @@ func (e *Event) SetEvent(event string) {
 	e.event = event
 }
 
-func (e *Event) SetHandler(event string) {
-	e.event = event
+func (e *Event) SetHandler(handler string) {
+	e.handler = handler
 }
 
 func (e *Event) Subscribe() error {

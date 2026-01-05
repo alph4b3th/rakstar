@@ -1,6 +1,7 @@
 // player fornece funções de gerenciamento de jogadores conectados.
 package player
 
+
 import (
 	"errors"
 
@@ -13,6 +14,10 @@ var (
 	ErrFailSetCharacter  = errors.New("Failure to set player character")
 	ErrFailGetCoordinate = errors.New("Failure to get player coordinate")
 )
+
+type Player struct {
+	ID int
+}
 
 // Life define a vida do player
 func (pb *PlayerBuilder) Life(life float32) *PlayerBuilder {

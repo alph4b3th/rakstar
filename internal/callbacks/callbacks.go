@@ -180,17 +180,17 @@ func onGameModeExit() bool {
 func onPlayerConnect(playerid C.int) bool {
 	evt, ok := Events["playerConnect"]
 	if !ok {
+		fmt.Println("erro!?")
 		return false
 	}
 
 	natives.SendClientMessage(int(playerid), -1,
-		"{ffffff}[{ff5ef2}RAKSTAR{ffffff}]{db34eb} desenvolvimento de servidores samp modernos com o estilo GoSeventh",
-	)
-	natives.SendClientMessage(int(playerid), -1,
 		"{ffffff}[{ff5ef2}RAKSTAR{ffffff}]{ffac12} github.com/alph4b3th/rakstar",
 	)
+
 	fn, ok := evt.Handler.(func(natives.Player) bool)
 	if !ok {
+		fmt.Println("Deu um erro brabo tiu:")
 		return false
 	}
 

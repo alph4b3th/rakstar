@@ -1,11 +1,11 @@
 package player
 
 import (
-	"github.com/goseventh/rakstar/internal/natives"
-	"github.com/goseventh/rakstar/internal/utils/constants/playerConst"
+	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
 )
 
-// Select é um operador lógico que seleciona um jogador com base em um apelido ou ID 
+// Select é um operador lógico que seleciona um jogador com base em um apelido ou ID
 // fornecido.
 // Ele recebe um argumento que pode ser uma string (representando o apelido do jogador)
 // ou um inteiro (representando o ID do jogador).

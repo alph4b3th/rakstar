@@ -2,14 +2,15 @@ package goroutines
 
 import (
 	"fmt"
-	"github.com/panjf2000/ants"
 	"time"
 
-	"github.com/goseventh/rakstar/internal/utils/constants/playerConst"
+	"github.com/panjf2000/ants"
+
+	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
 )
 
-
 var pool *ants.Pool
+
 const defaultRuntimes = 7777
 
 // Submit envia uma tarefa para os workers

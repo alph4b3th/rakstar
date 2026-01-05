@@ -1,8 +1,9 @@
 package chat
+
 import (
-	"github.com/goseventh/rakstar/internal/callbacks"
-	"github.com/goseventh/rakstar/internal/natives"
-	"github.com/goseventh/rakstar/internal/utils/common"
+	"github.com/alph4b3th/rakstar/internal/callbacks"
+	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/utils/common"
 )
 
 func init() {
@@ -11,9 +12,9 @@ func init() {
 
 func handlerChat(p natives.Player, text string) bool {
 	Builder().
-    DisableEncodding(). 
+		DisableEncodding().
 		Message(text).
-    Select(p.ID).
+		Select(p.ID).
 		Range(Local).
 		Color(common.ChatLocalColorStr).
 		Tag("local").

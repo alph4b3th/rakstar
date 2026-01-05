@@ -1,8 +1,6 @@
-module github.com/goseventh/rakstar
+module github.com/alph4b3th/rakstar
 
 go 1.20
-
-retract [v0.0.1, v1.0.4] // Versão publicada prematuramente
 
 require (
 	github.com/agnivade/levenshtein v1.1.1

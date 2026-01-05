@@ -1,6 +1,6 @@
 package dialog
 
-import "github.com/goseventh/rakstar/internal/utils/constants/dialogConst"
+import "github.com/alph4b3th/rakstar/internal/utils/constants/dialogConst"
 
 func (db *DialogBuilder) TypeInput() *DialogBuilder {
 	db.DialogRequest.Style = dialogConst.DialogStyleInput

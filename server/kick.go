@@ -3,8 +3,8 @@ package server
 import (
 	"time"
 
-	"github.com/goseventh/rakstar/chat"
-	"github.com/goseventh/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/chat"
+	"github.com/alph4b3th/rakstar/internal/natives"
 )
 
 func (rb *ServerBuild) Player(playerid int) *ServerBuild {

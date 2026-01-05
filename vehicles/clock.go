@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/goseventh/rakstar/goroutines"
+	"github.com/alph4b3th/rakstar/goroutines"
 )
 
 /*
@@ -17,8 +17,9 @@ Start é um método que inicia o clock do veículo.
 Importante: Invocar mais de uma vez essa função na mesma instância causará comportamentos estranhos. Portanto, certifique-se de chamar este método apenas uma vez por instância de vehicleBuilder.
 
 Exemplo de uso:
-    vb := NewVehicleBuilder()
-    vb.Start()
+
+	vb := NewVehicleBuilder()
+	vb.Start()
 */
 func (v *vehicleBuilder) Start() *vehicleBuilder {
 	ticker := time.NewTicker(time.Second)

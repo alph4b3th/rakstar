@@ -55,37 +55,37 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/goseventh/rakstar/command/argHandler.go (0.0%)</option>
+				<option value="file0">github.com/alph4b3th/rakstar/command/argHandler.go (0.0%)</option>
 				
-				<option value="file1">github.com/goseventh/rakstar/command/boot.go (0.0%)</option>
+				<option value="file1">github.com/alph4b3th/rakstar/command/boot.go (0.0%)</option>
 				
-				<option value="file2">github.com/goseventh/rakstar/command/builder.go (69.2%)</option>
+				<option value="file2">github.com/alph4b3th/rakstar/command/builder.go (69.2%)</option>
 				
-				<option value="file3">github.com/goseventh/rakstar/command/command.go (85.7%)</option>
+				<option value="file3">github.com/alph4b3th/rakstar/command/command.go (85.7%)</option>
 				
-				<option value="file4">github.com/goseventh/rakstar/command/conditionals.go (78.9%)</option>
+				<option value="file4">github.com/alph4b3th/rakstar/command/conditionals.go (78.9%)</option>
 				
-				<option value="file5">github.com/goseventh/rakstar/command/create.go (100.0%)</option>
+				<option value="file5">github.com/alph4b3th/rakstar/command/create.go (100.0%)</option>
 				
-				<option value="file6">github.com/goseventh/rakstar/command/handlers.go (59.4%)</option>
+				<option value="file6">github.com/alph4b3th/rakstar/command/handlers.go (59.4%)</option>
 				
-				<option value="file7">github.com/goseventh/rakstar/command/interceptor.go (0.0%)</option>
+				<option value="file7">github.com/alph4b3th/rakstar/command/interceptor.go (0.0%)</option>
 				
-				<option value="file8">github.com/goseventh/rakstar/command/typeNumber.go (90.9%)</option>
+				<option value="file8">github.com/alph4b3th/rakstar/command/typeNumber.go (90.9%)</option>
 				
-				<option value="file9">github.com/goseventh/rakstar/command/typePlayer.go (40.0%)</option>
+				<option value="file9">github.com/alph4b3th/rakstar/command/typePlayer.go (40.0%)</option>
 				
-				<option value="file10">github.com/goseventh/rakstar/command/typeText.go (100.0%)</option>
+				<option value="file10">github.com/alph4b3th/rakstar/command/typeText.go (100.0%)</option>
 				
-				<option value="file11">github.com/goseventh/rakstar/vehicles/builder.go (81.8%)</option>
+				<option value="file11">github.com/alph4b3th/rakstar/vehicles/builder.go (81.8%)</option>
 				
-				<option value="file12">github.com/goseventh/rakstar/vehicles/clock.go (0.0%)</option>
+				<option value="file12">github.com/alph4b3th/rakstar/vehicles/clock.go (0.0%)</option>
 				
-				<option value="file13">github.com/goseventh/rakstar/vehicles/eletrics.go (16.7%)</option>
+				<option value="file13">github.com/alph4b3th/rakstar/vehicles/eletrics.go (16.7%)</option>
 				
-				<option value="file14">github.com/goseventh/rakstar/vehicles/engine.go (51.1%)</option>
+				<option value="file14">github.com/alph4b3th/rakstar/vehicles/engine.go (51.1%)</option>
 				
-				<option value="file15">github.com/goseventh/rakstar/vehicles/vehicle.go (0.0%)</option>
+				<option value="file15">github.com/alph4b3th/rakstar/vehicles/vehicle.go (0.0%)</option>
 				
 				</select>
 			</div>
@@ -186,9 +186,9 @@ func (self *ArgHandler) GetInput() *string <span class="cov0" title="0">{
 		<pre class="file" id="file1" style="display: none">package command
 
 import (
-        "github.com/goseventh/rakstar/chat"
-        "github.com/goseventh/rakstar/internal/callbacks"
-        "github.com/goseventh/rakstar/internal/utils/common"
+        "github.com/alph4b3th/rakstar/chat"
+        "github.com/alph4b3th/rakstar/internal/callbacks"
+        "github.com/alph4b3th/rakstar/internal/utils/common"
 )
 
 /*
@@ -276,7 +276,7 @@ import (
         "strings"
 
         "github.com/agnivade/levenshtein"
-        "github.com/goseventh/rakstar/internal/natives"
+        "github.com/alph4b3th/rakstar/internal/natives"
 )
 
 type CommandHandler func(context *CommandContext)
@@ -533,12 +533,12 @@ import (
 >>>>>>> dev
         "strings"
 
-        "github.com/goseventh/rakstar/chat"
-        "github.com/goseventh/rakstar/internal/natives"
-        "github.com/goseventh/rakstar/internal/utils/common"
-        "github.com/goseventh/rakstar/internal/utils/constants/playerConst"
-        "github.com/goseventh/rakstar/internal/utils/sampstr"
-        "github.com/goseventh/rakstar/server"
+        "github.com/alph4b3th/rakstar/chat"
+        "github.com/alph4b3th/rakstar/internal/natives"
+        "github.com/alph4b3th/rakstar/internal/utils/common"
+        "github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
+        "github.com/alph4b3th/rakstar/internal/utils/sampstr"
+        "github.com/alph4b3th/rakstar/server"
 )
 
 var NotFoundChat *chat.ChatBuilder
@@ -969,7 +969,7 @@ func processCommand(player natives.Player, cmdtext string) bool <span class="cov
 import (
         "strings"
 
-        "github.com/goseventh/rakstar/internal/natives"
+        "github.com/alph4b3th/rakstar/internal/natives"
 )
 
 type CommandInterceptorContext struct {
@@ -1262,7 +1262,7 @@ import (
         "math/rand"
         "time"
 
-        "github.com/goseventh/rakstar/server"
+        "github.com/alph4b3th/rakstar/server"
 )
 
 /*
@@ -1345,7 +1345,7 @@ func verifyFuel(v *vehicleBuilder) <span class="cov0" title="0">{
 		<pre class="file" id="file13" style="display: none">package vehicles
 >>>>>>> dev
 
-import "github.com/goseventh/rakstar/internal/natives"
+import "github.com/alph4b3th/rakstar/internal/natives"
 import "math/rand"
 import "time"
 
@@ -1470,7 +1470,7 @@ import (
         "math/rand"
         // "time"
 
-        "github.com/goseventh/rakstar/internal/natives"
+        "github.com/alph4b3th/rakstar/internal/natives"
 )
 
 /*
@@ -1622,8 +1622,8 @@ func (e *engineBuilder) TurnOff() *engineBuilder <span class="cov0" title="0">{
 >>>>>>> dev
 
 import (
-        "github.com/goseventh/rakstar/internal/natives"
-        "github.com/goseventh/rakstar/player"
+        "github.com/alph4b3th/rakstar/internal/natives"
+        "github.com/alph4b3th/rakstar/player"
 )
 
 func (v *vehicleBuilder) Pos(x, y, z, rotate float32) *vehicleBuilder <span class="cov0" title="0">{

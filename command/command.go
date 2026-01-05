@@ -1,7 +1,7 @@
 // command fornece funções úteis para criação e manipulações de comandos do SA-MP.
 // Criar comandos com este pacote é intuitivo, e permite operações lógicas
 // utilizando os operadoes lógicos do pacote, para estabelecer regras e condições
-// antes de executar o comando. 
+// antes de executar o comando.
 package command
 
 import (
@@ -9,20 +9,20 @@ import (
 	"strings"
 
 	"github.com/agnivade/levenshtein"
-	"github.com/goseventh/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/natives"
 )
 
 type CommandHandler func(context *CommandContext)
 
 type Command struct {
-	Name          string
-  conditions map[int][]condition
-	Handler       CommandHandler
-	Interceptors  []CommandInterceptorHandler
-	Description   string
-	RequireLogin  bool
-	Aliases       []string
-	Roles         []string
+	Name         string
+	conditions   map[int][]condition
+	Handler      CommandHandler
+	Interceptors []CommandInterceptorHandler
+	Description  string
+	RequireLogin bool
+	Aliases      []string
+	Roles        []string
 }
 
 type CommandContext struct {

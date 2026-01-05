@@ -3,7 +3,7 @@ package natives
 import (
 	"fmt"
 
-	"github.com/goseventh/rakstar/internal/utils/constants/playerConst"
+	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
 )
 
 // Player implements OO players.

@@ -3,10 +3,10 @@ package dialog
 import (
 	"errors"
 
-	"github.com/goseventh/rakstar/internal/natives"
-	"github.com/goseventh/rakstar/internal/utils/constants/dialogConst"
-	"github.com/goseventh/rakstar/internal/utils/constants/playerConst"
-	"github.com/goseventh/rakstar/internal/utils/sampstr"
+	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/utils/constants/dialogConst"
+	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
+	"github.com/alph4b3th/rakstar/internal/utils/sampstr"
 )
 
 func (db *DialogBuilder) Send() *DialogBuilder {

@@ -5,18 +5,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/goseventh/rakstar/internal/natives"
-	"github.com/goseventh/rakstar/internal/utils/constants/playerConst"
-	"github.com/goseventh/rakstar/internal/utils/sampstr"
+	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
+	"github.com/alph4b3th/rakstar/internal/utils/sampstr"
 )
 
 type SendPlayerMessageRequest struct {
-	Player          *natives.Player
-	Message         string
-	Color           string
-	Local           bool
-	Range           float32
-	Tag             string
+	Player         *natives.Player
+	Message        string
+	Color          string
+	Local          bool
+	Range          float32
+	Tag            string
 	EnableEncoding bool
 }
 
@@ -27,8 +27,8 @@ type ChatBuilder struct {
 var isChatEnable = true
 
 func Builder() *ChatBuilder {
-  chat := new(ChatBuilder)
-  chat.EnableEncodding()
+	chat := new(ChatBuilder)
+	chat.EnableEncodding()
 	return chat
 }
 func (chat *ChatBuilder) Wait(wait ...time.Duration) *ChatBuilder {
@@ -72,7 +72,7 @@ func (chat *ChatBuilder) EnableEncodding() *ChatBuilder {
 // OBS: Esta função deve ser invocada antes de invocar
 // a função message
 // samp. Consulte:
-// - https://pkg.go.dev/github.com/goseventh/rakstar/player#chat.EnableEncoding
+// - https://pkg.go.dev/github.com/alph4b3th/rakstar/player#chat.EnableEncoding
 func (chat *ChatBuilder) DisableEncodding() *ChatBuilder {
 	chat.requestMsg.EnableEncoding = false
 	return chat

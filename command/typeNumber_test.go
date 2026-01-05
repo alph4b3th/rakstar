@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/goseventh/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/natives"
 )
 
 func TestStrFuncsTypeNumber(t *testing.T) {

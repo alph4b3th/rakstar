@@ -3,9 +3,9 @@ package player
 import (
 	"time"
 
-	"github.com/goseventh/rakstar/database/mongo"
-	"github.com/goseventh/rakstar/goroutines"
-	"github.com/goseventh/rakstar/internal/natives"
+	mongodb "github.com/alph4b3th/rakstar/database/mongo"
+	"github.com/alph4b3th/rakstar/goroutines"
+	"github.com/alph4b3th/rakstar/internal/natives"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

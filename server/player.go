@@ -3,9 +3,9 @@ package server
 import (
 	"errors"
 
-	"github.com/goseventh/rakstar/chat"
-	"github.com/goseventh/rakstar/internal/natives"
-	"github.com/goseventh/rakstar/player"
+	"github.com/alph4b3th/rakstar/chat"
+	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/player"
 )
 
 var (
@@ -28,5 +28,5 @@ func (rb *ServerBuild) GetIP(player player.PlayerBuilder) (string, error) {
 	if !sucess {
 		return "", ErrFailureGetIp
 	}
-  return ip, nil
+	return ip, nil
 }

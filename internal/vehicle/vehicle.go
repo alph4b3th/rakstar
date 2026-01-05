@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/goseventh/rakstar/internal/natives"
-	"github.com/goseventh/rakstar/internal/utils/constants/vehiclesConst"
+	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/utils/constants/vehiclesConst"
 )
 
 const (

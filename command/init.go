@@ -1,9 +1,9 @@
 package command
 
 import (
-	"github.com/goseventh/rakstar/chat"
-	"github.com/goseventh/rakstar/internal/callbacks"
-	"github.com/goseventh/rakstar/internal/utils/common"
+	"github.com/alph4b3th/rakstar/chat"
+	"github.com/alph4b3th/rakstar/internal/callbacks"
+	"github.com/alph4b3th/rakstar/internal/utils/common"
 )
 
 func init() {
@@ -13,5 +13,5 @@ func init() {
 	SetConfig(chat, "Comando errado, similar")
 
 	err := callbacks.On("playerCommandText", HandlePlayerCommandText)
-  panic(err)
+	panic(err)
 }

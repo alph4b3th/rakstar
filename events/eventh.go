@@ -1,6 +1,6 @@
 package events
 
-import "github.com/goseventh/rakstar/internal/callbacks"
+import "github.com/alph4b3th/rakstar/internal/callbacks"
 
 type Event struct {
 	handler interface{}

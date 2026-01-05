@@ -4,7 +4,7 @@ import (
 	"context"
 	"runtime"
 
-	"github.com/goseventh/rakstar/goroutines"
+	"github.com/alph4b3th/rakstar/goroutines"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 

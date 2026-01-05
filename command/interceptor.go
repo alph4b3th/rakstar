@@ -3,7 +3,7 @@ package command
 import (
 	"strings"
 
-	"github.com/goseventh/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/natives"
 )
 
 type CommandInterceptorContext struct {

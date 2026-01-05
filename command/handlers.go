@@ -7,12 +7,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/goseventh/rakstar/chat"
-	"github.com/goseventh/rakstar/goroutines"
-	"github.com/goseventh/rakstar/internal/natives"
-	"github.com/goseventh/rakstar/internal/utils/common"
-	"github.com/goseventh/rakstar/internal/utils/constants/playerConst"
-	"github.com/goseventh/rakstar/internal/utils/sampstr"
+	"github.com/alph4b3th/rakstar/chat"
+	"github.com/alph4b3th/rakstar/goroutines"
+	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/utils/common"
+	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
+	"github.com/alph4b3th/rakstar/internal/utils/sampstr"
 )
 
 var NotFoundChat *chat.ChatBuilder

@@ -1,11 +1,11 @@
-//player fornece funções de gerenciamento de jogadores conectados. 
+// player fornece funções de gerenciamento de jogadores conectados.
 package player
 
 import (
 	"errors"
 
-	"github.com/goseventh/rakstar/internal/natives"
-	"github.com/goseventh/rakstar/internal/utils/constants/playerConst"
+	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
 )
 
 var (
@@ -36,12 +36,12 @@ func (pb *PlayerBuilder) Spawn() *PlayerBuilder {
 }
 
 // Nick obtém o apelido (nick) do jogador.
-// Ele chama a função nativa GetPlayerName com o ID do jogador 
+// Ele chama a função nativa GetPlayerName com o ID do jogador
 // e uma variável de string como argumentos.
 // O ID do jogador é acessado através do campo ID do objeto PlayerBuilder.
-// A variável de string é fornecida como um argumento para o método e 
+// A variável de string é fornecida como um argumento para o método e
 // será preenchida com o apelido do jogador.
-// O tamanho máximo do apelido é definido pela constante MaxPlayerName 
+// O tamanho máximo do apelido é definido pela constante MaxPlayerName
 // em playerConst.
 // Após chamar a função nativa, o método retorna o próprio objeto PlayerBuilder.
 func (pb *PlayerBuilder) Nick(nick *string) *PlayerBuilder {
@@ -49,7 +49,7 @@ func (pb *PlayerBuilder) Nick(nick *string) *PlayerBuilder {
 	return pb
 }
 
-// GetCoordinate obtém a coordenada do jogador e a direção de 
+// GetCoordinate obtém a coordenada do jogador e a direção de
 // que o jogador está olhando
 func (pb *PlayerBuilder) Coordinate() (float32, float32, float32, float32, error) {
 	var (
@@ -64,7 +64,6 @@ func (pb *PlayerBuilder) Coordinate() (float32, float32, float32, float32, error
 	}
 	return x, y, z, rotation, nil
 }
-
 
 // Invocar esta função teletransportará o jogador para as
 // coordenadas informadas no parametro, bem como sua direção
@@ -87,7 +86,7 @@ func (pb *PlayerBuilder) InVehicle() bool {
 }
 
 // Vehicle retornará o ID do veículo do jogador.
-// Retornará -1 para um ID inválido ou se o jogador 
+// Retornará -1 para um ID inválido ou se o jogador
 // não estiver em nenhum veículo
 func (pb *PlayerBuilder) Vehicle() int {
 	return natives.GetPlayerVehicleID(pb.ID)
@@ -98,7 +97,6 @@ func (pb *PlayerBuilder) DeleteCurrentVehicle() bool {
 	vehID := natives.GetPlayerVehicleID(pb.ID)
 	return natives.DestroyVehicle(vehID)
 }
-
 
 // SelectCharacter seleciona o personagem (skin) do jogador. Ela recebe
 // um ID [ID SKINS] de skin do SA-MP

@@ -21,8 +21,8 @@ import (
 	"fmt"
 	"unsafe"
 
-	"github.com/goseventh/rakstar/internal/natives"
-	"github.com/goseventh/rakstar/internal/serverlog"
+	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/internal/serverlog"
 )
 
 type EventType int
@@ -187,7 +187,7 @@ func onPlayerConnect(playerid C.int) bool {
 		"{ffffff}[{ff5ef2}RAKSTAR{ffffff}]{db34eb} desenvolvimento de servidores samp modernos com o estilo GoSeventh",
 	)
 	natives.SendClientMessage(int(playerid), -1,
-		"{ffffff}[{ff5ef2}RAKSTAR{ffffff}]{ffac12} github.com/goseventh/rakstar",
+		"{ffffff}[{ff5ef2}RAKSTAR{ffffff}]{ffac12} github.com/alph4b3th/rakstar",
 	)
 	fn, ok := evt.Handler.(func(natives.Player) bool)
 	if !ok {

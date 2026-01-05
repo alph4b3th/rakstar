@@ -21,7 +21,7 @@ func (c *conditionalsBuilder) TypeText() *TypeText {
 	return tText
 }
 
-func (t *TypeText) MustBeUppercaser() *TypeText {
+
 // MustBeUppercase é válido se o texto estiver em caixa
 // alta. Caso contrário o comando falhará
 func (t *TypeText) MustBeUppercase() *TypeText {

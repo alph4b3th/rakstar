@@ -51,7 +51,7 @@ func stateCoordinate(pb *PlayerBuilder) {
 	if !ok {
 		return
 	}
-	pb.Coordinate = []float32{posX, posY, posZ}
+	pb.State.Coordinate = []float32{posX, posY, posZ}
 }
 
 func stateLife(pb *PlayerBuilder) {
@@ -81,10 +81,10 @@ func stateCharacter(pb *PlayerBuilder) {
 }
 
 func setStateCoordinate(pb *PlayerBuilder) bool {
-	if len(pb.Coordinate) < 3 {
+	if len(pb.State.Coordinate) < 3 {
 		return false
 	}
-	ok := natives.SetPlayerPos(pb.ID, pb.Coordinate[0], pb.Coordinate[1], pb.Coordinate[2])
+	ok := natives.SetPlayerPos(pb.ID, pb.State.Coordinate[0], pb.State.Coordinate[1], pb.State.Coordinate[2])
 	return ok
 }
 

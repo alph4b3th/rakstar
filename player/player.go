@@ -15,10 +15,6 @@ var (
 	ErrFailGetCoordinate = errors.New("Failure to get player coordinate")
 )
 
-type Player struct {
-	ID int
-}
-
 // Life define a vida do player
 func (pb *PlayerBuilder) Life(life float32) *PlayerBuilder {
 	natives.SetPlayerHealth(pb.ID, life)

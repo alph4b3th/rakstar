@@ -1,6 +1,7 @@
 package vehicles
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/alph4b3th/rakstar/internal/natives"
@@ -110,6 +111,17 @@ Create é um método que cria e faz spawn de um veículo no jogo.
     sejam encadeadas em uma única linha.
 */
 func (v *vehicleBuilder) Create() *vehicleBuilder {
+
+	fmt.Println("model:", v.model)
+	fmt.Println("posX:", v.posX)
+	fmt.Println("posY:", v.posY)
+	fmt.Println("posZ:", v.posZ)
+	fmt.Println("rotate:", v.rotate)
+	fmt.Println("color1:", v.colorPrimary)
+	fmt.Println("color2:", v.colorSecondary)
+	fmt.Println("respawn_delay:", -1)
+	fmt.Println("Siren:", false)
+
 	v.id = natives.CreateVehicle(
 		v.model,
 		v.posX,

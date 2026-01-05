@@ -59,7 +59,7 @@ func (v *vehicleBuilder) Eletrics() *eletricsBuilder {
 
 /*
 Seleciona o veículo que será usado para manipulações
-
+- Instável!!!!
 - Recebe o ID de criação do veículo
 */
 func (v *vehicleBuilder) Select(id int) *vehicleBuilder {

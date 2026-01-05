@@ -17,7 +17,7 @@ func (e *Event) SetEvent(event string) {
 	e.event = event
 }
 
-func (e *Event) SetHandler(handler string) {
+func (e *Event) SetHandler(handler interface{}) {
 	e.handler = handler
 }
 

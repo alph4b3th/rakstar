@@ -183,7 +183,7 @@ dentro de uma certa distância.
   - Nota: Se a distância fornecida for menor que 0, ela será definida como 5.0.
 */
 func (v *vehicleBuilder) DeleteInRange(player player.PlayerBuilder, distance float64) {
-	requestX, requestY, requestZ, _, err := player.GetCoordinate()
+	requestX, requestY, requestZ, _, err := player.Coordinate()
 	if err != nil {
 		return
 	}
@@ -233,25 +233,25 @@ func (v *vehicleBuilder) DestroyAll() bool {
 }
 
 /*
-  Destroy é um método que destrói o veículo selecionado.
-    - O método chama a função nativa DestroyVehicle com o ID do veículo.
-    - Se a função nativa retornar false, indicando que o veículo não pôde
-      ser destruído, o método retornará false.
-    - Se o veículo for destruído com sucesso, o método retornará true.
+Destroy é um método que destrói o veículo selecionado.
+  - O método chama a função nativa DestroyVehicle com o ID do veículo.
+  - Se a função nativa retornar false, indicando que o veículo não pôde
+    ser destruído, o método retornará false.
+  - Se o veículo for destruído com sucesso, o método retornará true.
 */
 func (v *vehicleBuilder) Destroy() bool {
 	return natives.DestroyVehicle(v.id)
 }
 
 /*
-  VehicleModelName é um método que está em construção, que recebe um
-  ID de modelo [ID DOS MODELOS] e retorna o nome respectivo do veículo
-    - Nota: A lista de veículos está em construção e alguns tipos de veículos
+VehicleModelName é um método que está em construção, que recebe um
+ID de modelo [ID DOS MODELOS] e retorna o nome respectivo do veículo
+  - Nota: A lista de veículos está em construção e alguns tipos de veículos
     não possuem suporte. Também não há garantias de estabilidade.
     Chamar esse método poderá resultar em retornos incorretos ou
     vazios.
 
-  [ID DOS MODELOS]: https://sampwiki.blast.hk/wiki/Vehicles:All
+[ID DOS MODELOS]: https://sampwiki.blast.hk/wiki/Vehicles:All
 */
 func (v *vehicleBuilder) VehicleModelName(modelID int) string {
 	switch modelID {

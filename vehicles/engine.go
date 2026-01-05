@@ -3,24 +3,25 @@ package vehicles
 import (
 	"math"
 	"math/rand"
+
 	// "time"
 
 	"github.com/goseventh/rakstar/internal/natives"
 )
 
 /*
-  SetFuelEconomy é um método que altera a economia de combustível do veículo.
+SetFuelEconomy é um método que altera a economia de combustível do veículo.
   - Ele recebe um argumento float32 'fe' que representa a nova economia de combustível.
-  - Se 'fe' for maior que 100, ele será definido como 100. Se for menor que 0, será 
+  - Se 'fe' for maior que 100, ele será definido como 100. Se for menor que 0, será
     definido como 0.
   - O método então define o campo fuelEconomy do objeto engine do veículo para o valor de 'fe'.
-  - O método retorna o próprio objeto engineBuilder, permitindo que chamadas de método sejam 
+  - O método retorna o próprio objeto engineBuilder, permitindo que chamadas de método sejam
     encadeadas em uma única linha.
-  - Nota: Uma economia de combustível de 100 significa que o veículo provavelmente não 
-          consumirá quantidades significativas de combustível e pode até ter combustível 
-          infinito. 
-          Uma economia de combustível de 0 significa que o veículo consumirá combustível 
-          drasticamente e provavelmente de forma imediata.
+  - Nota: Uma economia de combustível de 100 significa que o veículo provavelmente não
+    consumirá quantidades significativas de combustível e pode até ter combustível
+    infinito.
+    Uma economia de combustível de 0 significa que o veículo consumirá combustível
+    drasticamente e provavelmente de forma imediata.
 */
 func (e *engineBuilder) SetFuelEconomy(fe float32) *engineBuilder {
 	if fe > 100 {
@@ -33,13 +34,13 @@ func (e *engineBuilder) SetFuelEconomy(fe float32) *engineBuilder {
 }
 
 // SetFuel é um método que altera a quantidade de combustível no tanque do veículo.
-//  - Ele recebe um argumento float32 'f' que representa a nova quantidade de combustível.
-//  - Se 'f' for maior que 100, ele será definido como 100. Se for menor que 0, será definido como 0.
-//  - O método então define o campo fuel do objeto engine do veículo para o valor de 'f'.
-//  - O método retorna o próprio objeto engineBuilder, permitindo que chamadas de método sejam encadeadas 
-//    em uma única linha.
-//  - Nota: Um valor de combustível de 100 representa um tanque cheio, enquanto um valor de 0 representa 
-//         um tanque vazio.
+//   - Ele recebe um argumento float32 'f' que representa a nova quantidade de combustível.
+//   - Se 'f' for maior que 100, ele será definido como 100. Se for menor que 0, será definido como 0.
+//   - O método então define o campo fuel do objeto engine do veículo para o valor de 'f'.
+//   - O método retorna o próprio objeto engineBuilder, permitindo que chamadas de método sejam encadeadas
+//     em uma única linha.
+//   - Nota: Um valor de combustível de 100 representa um tanque cheio, enquanto um valor de 0 representa
+//     um tanque vazio.
 func (e *engineBuilder) SetFuel(f float32) *engineBuilder {
 	if f > 100 {
 		f = 100
@@ -52,9 +53,9 @@ func (e *engineBuilder) SetFuel(f float32) *engineBuilder {
 
 /*
 Fuel é um método que retorna a quantidade atual de combustível no tanque do veículo.
-- O método retorna o valor do campo fuel do objeto engine do veículo.
-- Nota: Um valor de retorno de 100 representa um tanque cheio, enquanto um valor 
-        de retorno de 0 representa um tanque vazio.
+  - O método retorna o valor do campo fuel do objeto engine do veículo.
+  - Nota: Um valor de retorno de 100 representa um tanque cheio, enquanto um valor
+    de retorno de 0 representa um tanque vazio.
 */
 func (e *engineBuilder) Fuel() float32 {
 	return e.v.engine.fuel
@@ -62,21 +63,21 @@ func (e *engineBuilder) Fuel() float32 {
 
 // FuelEconomy é um método que retorna a economia atual de combustível do veículo.
 //   - O método retorna o valor do campo fuelEconomy do objeto engine do veículo.
-//   - Nota: Um valor de retorno de 100 representa a máxima economia de combustível, 
-//               enquanto um valor de retorno de 0 representa nenhuma economia/minima 
-//               economia de combustível.
+//   - Nota: Um valor de retorno de 100 representa a máxima economia de combustível,
+//     enquanto um valor de retorno de 0 representa nenhuma economia/minima
+//     economia de combustível.
 func (e *engineBuilder) FuelEconomy() float32 {
 	return e.v.engine.fuelEconomy
 }
 
 /*
-Ignite é um método que tenta dar partida no motor do veículo. As chances de sucesso 
+Ignite é um método que tenta dar partida no motor do veículo. As chances de sucesso
 dependem da quantidade atual de combustível no tanque e da carga atual da bateria.
 
-  - Ele recebe um argumento booleano 'status' por referência. Se o motor for iniciado 
+  - Ele recebe um argumento booleano 'status' por referência. Se o motor for iniciado
     com sucesso, 'status' será atualizado para true.
-  - O método chama a função nativa SetVehicleParamsEx com o ID do veículo e outros 
-    parâmetros relevantes. Se a função nativa indicar que o motor foi iniciado com sucesso, 
+  - O método chama a função nativa SetVehicleParamsEx com o ID do veículo e outros
+    parâmetros relevantes. Se a função nativa indicar que o motor foi iniciado com sucesso,
     'status' será atualizado para true.
 */
 func (e *engineBuilder) Ignite(status *bool) *engineBuilder {
@@ -108,8 +109,8 @@ func (e *engineBuilder) Ignite(status *bool) *engineBuilder {
 }
 
 func (e *engineBuilder) canIgniteEngine() bool {
-	charger := e.v.Eletrics().GetBatteryCharger()
-	fuel := e.GetFuel()
+	charger := e.v.Eletrics().BatteryCharger()
+	fuel := e.Fuel()
 
 	rand.New(rand.NewSource(0))
 

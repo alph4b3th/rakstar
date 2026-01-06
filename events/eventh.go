@@ -1,15 +1,19 @@
 package events
 
-import (
-	"github.com/alph4b3th/rakstar/internal/callbacks"
-)
-
 type Event struct {
 	handler interface{}
 	event   string
 }
 
+var events map[string]any
+
+func init() {
+	events = make(map[string]any)
+
+}
+
 func NewEvent() *Event {
+
 	return new(Event)
 }
 
@@ -21,7 +25,7 @@ func (e *Event) SetHandler(handler interface{}) {
 	e.handler = handler
 }
 
-func (e *Event) Subscribe() error {
-	err := callbacks.On(e.event, e.handler)
-	return err
+func (e *Event) Subscribe() {
+	events[e.event] = e.handler
+
 }

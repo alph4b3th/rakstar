@@ -1,0 +1,21 @@
+package events
+
+import (
+	"fmt"
+
+	"github.com/alph4b3th/rakstar/internal/callbacks"
+	"github.com/alph4b3th/rakstar/internal/natives"
+)
+
+func init() {
+	callbacks.On("playerKeyStateChange", HandlerOnPlayerKeyStateChange)
+}
+
+func HandlerOnPlayerKeyStateChange(playerid natives.Player, newkeys, oldkeys int) bool {
+	if handler, ok := events["playerKeyStateChange"].(func(int, int, int) bool); ok {
+		fmt.Println("O player mudou de chave/tecla. ID:", playerid)
+		return handler(playerid.ID, newkeys, oldkeys)
+	}
+
+	return true
+}

@@ -4,17 +4,16 @@ import (
 	"fmt"
 
 	"github.com/alph4b3th/rakstar/internal/callbacks"
-	"github.com/alph4b3th/rakstar/internal/natives"
 )
 
 func init() {
-	callbacks.On("vehicleRespray", HandlerOnVehicleRespray)
+	callbacks.On("vehicleSpawn", HandlerOnVehicleSpawn)
 }
 
-func HandlerOnVehicleRespray(playerid natives.Player, vehicleid, color1, color2	 int) bool {
-	if handler, ok := events["vehicleRespray"].(func(int, int, int) bool); ok {
-		fmt.Println("O veiculo mudou de cor. ID:", vehicleid)
-		return handler(vehicleid, color1, color2)
+func HandlerOnVehicleSpawn(vehicleid int) bool {
+	if handler, ok := events["vehicleSpawn"].(func(int) bool); ok {
+		fmt.Println("O veiculo spawnou. ID:", vehicleid)
+		return handler(vehicleid)
 	}
 
 	return true

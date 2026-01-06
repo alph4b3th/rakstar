@@ -277,6 +277,7 @@ func onPlayerText(playerid C.int, text *C.char_t) bool {
 
 	fn, ok := evt.Handler.(func(natives.Player, string) bool)
 	if !ok {
+		fmt.Println("deu rum")
 		return true
 	}
 	return fn(natives.Player{ID: int(playerid)}, C.GoString(C.constToNonConst(text)))

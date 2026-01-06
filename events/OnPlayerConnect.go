@@ -12,7 +12,7 @@ func init() {
 }
 
 func HandlerOnPlayerConnect(playerid natives.Player) bool {
-	if handler, ok := events["playerDeath"].(func(int) bool); ok {
+	if handler, ok := events["playerConnect"].(func(int) bool); ok {
 		fmt.Println("O jogador se conectou. ID:", playerid)
 		return handler(playerid.ID)
 	}

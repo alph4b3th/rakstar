@@ -1,13 +1,14 @@
 package dialog
 
 func (db *DialogBuilder) GetButton(response *string) *DialogBuilder {
-	button := ""
-	if db.DialogResponse.Response == 1 {
-		button = "left"
-	} else if db.DialogResponse.Response == 2 {
-		button = "right"
+	switch db.DialogResponse.Response {
+	case 1:
+		*response = "left"
+	case 0:
+		*response = "right"
+	default:
+		*response = ""
 	}
-	*response = button
 	return db
 }
 

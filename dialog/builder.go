@@ -28,18 +28,30 @@ const dialogHandlerID = 9999
 type DialogBuilder struct {
 	DialogRequest  *DialogRequest
 	DialogResponse *DialogResponse
-	Err error
+	Err            error
 }
 
-func  Builder() *DialogBuilder {
-	return new(DialogBuilder)
-}
-
-func (db *DialogBuilder) Wait(wait... time.Duration) *DialogBuilder {
-	if wait[0].Seconds() < 1 {
-		wait[0] = time.Second
+func Builder() *DialogBuilder {
+	return &DialogBuilder{
+		DialogRequest:  &DialogRequest{},
+		DialogResponse: &DialogResponse{},
 	}
-	time.Sleep(wait[0])
-	return new(DialogBuilder)
 }
 
+// func (db *DialogBuilder) Wait(wait ...time.Duration) *DialogBuilder {
+// 	if wait[0].Seconds() < 1 {
+// 		wait[0] = time.Second
+// 	}
+// 	time.Sleep(wait[0])
+// 	return new(DialogBuilder)
+// }
+
+func (db *DialogBuilder) Wait(wait ...time.Duration) *DialogBuilder {
+	if len(wait) == 0 || wait[0] < time.Second {
+		time.Sleep(time.Second)
+		return db
+	}
+
+	time.Sleep(wait[0]) 	
+	return db
+}

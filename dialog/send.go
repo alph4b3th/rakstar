@@ -53,5 +53,7 @@ func (db *DialogBuilder) Send() *DialogBuilder {
 		return db
 	}
 
+	db.DialogResponse = dialogResponse
 	return db
+
 }

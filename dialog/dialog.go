@@ -14,10 +14,11 @@ func (db *DialogBuilder) Select(arg interface{}) *DialogBuilder {
 			natives.GetPlayerName(i, &name, playerConst.MaxPlayerName)
 			if name == v {
 				db.DialogRequest.ID = i
+				break
 			}
-			return db
-
 		}
+		return db
+
 	case int:
 		db.DialogRequest.ID = v
 		return db

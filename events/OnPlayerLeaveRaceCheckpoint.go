@@ -13,7 +13,7 @@ func init() {
 
 func HandlerOnPlayerLeaveRaceCheckpoint(playerid natives.Player) bool {
 	if handler, ok := events["playerLeaveRaceCheckpoint"].(func(int) bool); ok {
-		fmt.Println("O player mudou de estado. ID:", playerid)
+		fmt.Println("O player saiu em checkpoit de corrida. ID:", playerid)
 		return handler(playerid.ID)
 	}
 

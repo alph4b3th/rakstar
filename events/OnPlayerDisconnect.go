@@ -12,10 +12,10 @@ func init() {
 }
 
 func HandlerOnPlayerDisconnect(playerid natives.Player, reason int) bool {
-	if handler, ok := events["playerDisconnect"].(func(int, int)); ok {
-		handler(playerid.ID, reason)
+	if handler, ok := events["playerDisconnect"].(func(int, int) bool); ok {
+		fmt.Println("O jogador se desconectou. ID:", playerid)
+		return handler(playerid.ID, reason)
 	}
 
-	fmt.Println("O jogador se desconectou. ID:", playerid)
 	return true
 }

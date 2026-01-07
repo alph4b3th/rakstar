@@ -18,6 +18,7 @@ type SendPlayerMessageRequest struct {
 	Range          float32
 	Tag            string
 	EnableEncoding bool
+	WithPlayerName bool
 }
 
 type ChatBuilder struct {
@@ -29,6 +30,7 @@ var isChatEnable = true
 func Builder() *ChatBuilder {
 	chat := new(ChatBuilder)
 	chat.EnableEncodding()
+	chat.requestMsg.WithPlayerName = true
 	return chat
 }
 func (chat *ChatBuilder) Wait(wait ...time.Duration) *ChatBuilder {
@@ -93,6 +95,35 @@ func (chat *ChatBuilder) Range(r float32) *ChatBuilder {
 	return chat
 }
 
+func (chat *ChatBuilder) WithName() *ChatBuilder {
+	chat.requestMsg.WithPlayerName = true
+	return chat
+}
+
+func (chat *ChatBuilder) WithoutName() *ChatBuilder {
+	chat.requestMsg.WithPlayerName = false
+	return chat
+}
+
+func (chat *ChatBuilder) buildMessage() string {
+	if chat.requestMsg.WithPlayerName {
+		return fmt.Sprintf(
+			"%s%s%s: {ffffff}%s",
+			chat.requestMsg.Color,
+			chat.requestMsg.Tag,
+			chat.requestMsg.Player.GetName(),
+			chat.requestMsg.Message,
+		)
+	}
+
+	return fmt.Sprintf(
+		"%s%s{ffffff}%s",
+		chat.requestMsg.Color,
+		chat.requestMsg.Tag,
+		chat.requestMsg.Message,
+	)
+}
+
 func (chat *ChatBuilder) Send() *ChatBuilder {
 	if chat.requestMsg.Message == "" {
 		return chat
@@ -110,15 +141,8 @@ func (chat *ChatBuilder) Send() *ChatBuilder {
 		chat.requestMsg.Tag = fmt.Sprintf("[%s] ", strings.ToUpper(chat.requestMsg.Tag))
 	}
 
-	chat.requestMsg.Message =
-		fmt.Sprintf(
-			"%s%s%s: {ffffff}%s",
-			chat.requestMsg.Color,
-			chat.requestMsg.Tag,
-			chat.requestMsg.Player.GetName(),
-			chat.requestMsg.Message,
-		)
-
+	chat.requestMsg.Message = chat.buildMessage()
+	
 	if chat.requestMsg.Player.ID == Global {
 		natives.SendClientMessageToAll(-1, chat.requestMsg.Message)
 	}

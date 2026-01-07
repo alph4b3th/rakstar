@@ -142,6 +142,8 @@ func (chat *ChatBuilder) Send() *ChatBuilder {
 	}
 
 	chat.requestMsg.Message = chat.buildMessage()
+
+	fmt.Println("AAAAAAAAAAAAAA", chat.requestMsg.Message)
 	
 	if chat.requestMsg.Player.ID == Global {
 		natives.SendClientMessageToAll(-1, chat.requestMsg.Message)

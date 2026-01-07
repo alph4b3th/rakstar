@@ -28,7 +28,7 @@ func poolPush(id int) playerChannelPool {
 	channel := make(playerChannelPool)
 	playerChannelsPool[id] = append(playerChannelsPool[id], channel)
 
-	time.AfterFunc(time.Second*10, func() {
+	time.AfterFunc(time.Minute*10, func() {
 		playerChannelsLen := len(playerChannelsPool[id])
 
 		for i := 0; i < playerChannelsLen; i++ {

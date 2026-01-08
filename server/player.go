@@ -30,3 +30,9 @@ func (rb *ServerBuild) GetIP(player player.PlayerBuilder) (string, error) {
 	}
 	return ip, nil
 }
+
+func (rb *ServerBuild) UsePlayerPedAnims() *ServerBuild {
+
+	natives.UsePlayerPedAnims()
+	return rb
+}

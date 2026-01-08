@@ -1,7 +1,6 @@
 // player fornece funções de gerenciamento de jogadores conectados.
 package player
 
-
 import (
 	"errors"
 
@@ -109,4 +108,9 @@ func (pb *PlayerBuilder) SelectCharacter(skin int) error {
 		return ErrFailSetCharacter
 	}
 	return nil
+}
+
+func (pb *PlayerBuilder) SetSpawnInfo(team, skin int, x, y, z, r float32, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3 int) *PlayerBuilder {
+	natives.SetSpawnInfo(pb.ID, team, skin, x, y, z, r, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3)
+	return pb
 }

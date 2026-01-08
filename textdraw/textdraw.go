@@ -75,3 +75,10 @@ func (td *TextDrawBuilder) Shadow(size int) *TextDrawBuilder {
 	natives.TextDrawSetShadow(td.id, size)
 	return td
 }
+
+func (td *TextDrawBuilder) UseBox(use bool) *TextDrawBuilder {
+
+	td.useBox = use
+	natives.TextDrawUseBox(td.id, use)
+	return td
+}

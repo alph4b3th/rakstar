@@ -2,6 +2,7 @@ package textdraw
 
 import (
 	"github.com/alph4b3th/rakstar/internal/natives"
+	"github.com/alph4b3th/rakstar/player"
 )
 
 func (td *TextDrawBuilder) Text(text string) *TextDrawBuilder {
@@ -9,7 +10,7 @@ func (td *TextDrawBuilder) Text(text string) *TextDrawBuilder {
 	return td
 }
 
-func (td *TextDrawBuilder) SetPos(x, y float32) *TextDrawBuilder {
+func (td *TextDrawBuilder) Pos(x, y float32) *TextDrawBuilder {
 	td.x, td.y = x, y
 	return td
 }
@@ -95,4 +96,8 @@ func (td *TextDrawBuilder) TextSize(width, height float32) *TextDrawBuilder {
 	td.textSizeW, td.textSizeH = width, height
 	natives.TextDrawTextSize(td.id, width, height)
 	return td
+}
+
+func (td *TextDrawBuilder) ShowPlayer(player player.PlayerBuilder) {
+	natives.TextDrawShowForPlayer(player.ID, td.id)
 }

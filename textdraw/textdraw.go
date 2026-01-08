@@ -82,3 +82,9 @@ func (td *TextDrawBuilder) UseBox(use bool) *TextDrawBuilder {
 	natives.TextDrawUseBox(td.id, use)
 	return td
 }
+
+func (td *TextDrawBuilder) BoxColor(color int) *TextDrawBuilder {
+	td.boxColor = color
+	natives.TextDrawBoxColor(td.id, color)
+	return td
+}

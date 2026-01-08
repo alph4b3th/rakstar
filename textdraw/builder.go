@@ -13,6 +13,7 @@ type TextDrawBuilder struct {
 	proportional    bool
 	shadowSize      int
 	useBox          bool
+	boxColor        int
 }
 
 func Builder() *TextDrawBuilder {

@@ -16,3 +16,10 @@ func (td *TextDrawBuilder) Create() *TextDrawBuilder {
 	td.id = natives.TextDrawCreate(td.x, td.y, td.text)
 	return td
 }
+
+func (td *TextDrawBuilder) Alignment(alignment int) *TextDrawBuilder {
+	td.alignment = alignment
+	natives.TextDrawAlignment(td.id, alignment)
+
+	return td
+}

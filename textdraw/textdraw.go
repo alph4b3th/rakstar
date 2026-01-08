@@ -98,6 +98,6 @@ func (td *TextDrawBuilder) TextSize(width, height float32) *TextDrawBuilder {
 	return td
 }
 
-func (td *TextDrawBuilder) ShowPlayer(player player.PlayerBuilder) {
+func (td *TextDrawBuilder) ShowPlayer(player *player.PlayerBuilder) {
 	natives.TextDrawShowForPlayer(player.ID, td.id)
 }

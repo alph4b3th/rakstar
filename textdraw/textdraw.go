@@ -56,3 +56,10 @@ func (td *TextDrawBuilder) Color(color int) *TextDrawBuilder {
 
 	return td
 }
+
+func (td *TextDrawBuilder) Outline(size int) *TextDrawBuilder {
+
+	td.size = size
+	natives.TextDrawSetOutline(td.id, size)
+	return td
+}

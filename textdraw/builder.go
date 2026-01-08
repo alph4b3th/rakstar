@@ -9,6 +9,7 @@ type TextDrawBuilder struct {
 	alignment       int
 	backgroundColor int
 	color           int
+	size            int
 }
 
 func Builder() *TextDrawBuilder {

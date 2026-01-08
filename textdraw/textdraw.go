@@ -1,6 +1,8 @@
 package textdraw
 
-import "github.com/alph4b3th/rakstar/internal/natives"
+import (
+	"github.com/alph4b3th/rakstar/internal/natives"
+)
 
 func (td *TextDrawBuilder) Text(text string) *TextDrawBuilder {
 	td.text = text
@@ -86,5 +88,11 @@ func (td *TextDrawBuilder) UseBox(use bool) *TextDrawBuilder {
 func (td *TextDrawBuilder) BoxColor(color int) *TextDrawBuilder {
 	td.boxColor = color
 	natives.TextDrawBoxColor(td.id, color)
+	return td
+}
+
+func (td *TextDrawBuilder) TextSize(width, height float32) *TextDrawBuilder {
+	td.textSizeW, td.textSizeH = width, height
+	natives.TextDrawTextSize(td.id, width, height)
 	return td
 }

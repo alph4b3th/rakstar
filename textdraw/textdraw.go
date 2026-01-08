@@ -48,3 +48,11 @@ func (td *TextDrawBuilder) LetterSize(width, height float32) *TextDrawBuilder {
 	natives.TextDrawLetterSize(td.id, width, height)
 	return td
 }
+
+func (td *TextDrawBuilder) Color(color int) *TextDrawBuilder {
+
+	td.color = color
+	natives.TextDrawColor(td.id, td.color)
+
+	return td
+}

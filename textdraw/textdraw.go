@@ -31,3 +31,12 @@ func (td *TextDrawBuilder) BackgroudColor(color int) *TextDrawBuilder {
 
 	return td
 }
+
+func (td *TextDrawBuilder) Font(font int) *TextDrawBuilder {
+
+	td.font = font
+
+	natives.TextDrawFont(td.id, font)
+
+	return td
+}

@@ -1,6 +1,8 @@
 package textdraw
 
 import (
+	"fmt"
+
 	"github.com/alph4b3th/rakstar/internal/natives"
 	"github.com/alph4b3th/rakstar/player"
 )
@@ -100,4 +102,13 @@ func (td *TextDrawBuilder) TextSize(width, height float32) *TextDrawBuilder {
 
 func (td *TextDrawBuilder) ShowPlayer(player *player.PlayerBuilder) {
 	natives.TextDrawShowForPlayer(player.ID, td.id)
+}
+
+func (td *TextDrawBuilder) HidePlayer(player *player.PlayerBuilder) {
+	fmt.Println("[textdraw] escondendo para: ", player.ID, "a textdraw: ", td.id)
+	natives.TextDrawHideForPlayer(player.ID, td.id)
+}
+
+func (td *TextDrawBuilder) UpdateText(player *player.PlayerBuilder) {
+	natives.TextDrawSetString(td.id, td.text)
 }

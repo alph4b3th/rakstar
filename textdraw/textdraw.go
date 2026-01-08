@@ -64,8 +64,14 @@ func (td *TextDrawBuilder) Outline(size int) *TextDrawBuilder {
 	return td
 }
 
-func (td*TextDrawBuilder) Proportional(proportional bool) *TextDrawBuilder {
+func (td *TextDrawBuilder) Proportional(proportional bool) *TextDrawBuilder {
 	td.proportional = proportional
 	natives.TextDrawSetProportional(td.id, proportional)
+	return td
+}
+
+func (td *TextDrawBuilder) Shadow(size int) *TextDrawBuilder {
+	td.shadowSize = size
+	natives.TextDrawSetShadow(td.id, size)
 	return td
 }

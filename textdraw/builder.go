@@ -10,6 +10,7 @@ type TextDrawBuilder struct {
 	backgroundColor int
 	color           int
 	size            int
+	proportional bool
 }
 
 func Builder() *TextDrawBuilder {

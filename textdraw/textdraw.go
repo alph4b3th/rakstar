@@ -23,3 +23,11 @@ func (td *TextDrawBuilder) Alignment(alignment int) *TextDrawBuilder {
 
 	return td
 }
+
+func (td *TextDrawBuilder) BackgroudColor(color int) *TextDrawBuilder {
+
+	td.backgroundColor = color
+	natives.TextDrawBackgroundColor(td.id, color)
+
+	return td
+}

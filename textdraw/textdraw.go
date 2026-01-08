@@ -40,3 +40,11 @@ func (td *TextDrawBuilder) Font(font int) *TextDrawBuilder {
 
 	return td
 }
+
+func (td *TextDrawBuilder) LetterSize(width, height float32) *TextDrawBuilder {
+
+	td.width, td.height = width, height
+
+	natives.TextDrawLetterSize(td.id, width, height)
+	return td
+}

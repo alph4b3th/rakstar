@@ -91,8 +91,10 @@ func (e *engineBuilder) Ignite(status *bool) *engineBuilder {
 	var ignite int
 	if e.canIgniteEngine() {
 		ignite = 1
+		if status != nil {
+			*status = true
+		}
 	}
-
 	// e.v.Eletrics().IntroduceElectricalDrain()
 	// time.Slieep(time.Duration(rand.Intn(30 - (3) + 30)))
 	natives.SetVehicleParamsEx(

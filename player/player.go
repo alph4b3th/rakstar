@@ -114,3 +114,16 @@ func (pb *PlayerBuilder) SetSpawnInfo(team, skin int, x, y, z, r float32, weapon
 	natives.SetSpawnInfo(pb.ID, team, skin, x, y, z, r, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3)
 	return pb
 }
+
+func (pb *PlayerBuilder) ApplyAnimation(animlib string, animname string, fDelta float32, loop bool, lockx bool, locky bool, freeze bool, time int, forcesync bool) *PlayerBuilder {
+	natives.ApplyAnimation(pb.ID, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync)
+	return pb
+}
+
+func (pb *PlayerBuilder) ExitVehicle() *PlayerBuilder {
+	if pb.Vehicle() == -1{
+		return pb
+	}
+	natives.RemovePlayerFromVehicle(pb.ID)
+	return pb
+}

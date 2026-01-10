@@ -133,6 +133,7 @@ func (e *engineBuilder) canIgniteEngine() bool {
 TurnOff desliga o motor do veículo
 */
 func (e *engineBuilder) TurnOff() *engineBuilder {
+	engine := 0
 	lights := 0
 	alarm := 0
 	doors := 0
@@ -142,7 +143,7 @@ func (e *engineBuilder) TurnOff() *engineBuilder {
 
 	natives.GetVehicleParamsEx(
 		e.v.id,
-		nil,
+		&engine, // ← NUNCA nil
 		&lights,
 		&alarm,
 		&doors,

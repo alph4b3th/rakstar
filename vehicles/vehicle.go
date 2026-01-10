@@ -121,7 +121,7 @@ func (v *vehicleBuilder) Create() *vehicleBuilder {
 	fmt.Println("color2:", v.colorSecondary)
 	fmt.Println("respawn_delay:", -1)
 	fmt.Println("Siren:", false)
-
+	
 	v.id = natives.CreateVehicle(
 		v.model,
 		v.posX,
@@ -133,6 +133,10 @@ func (v *vehicleBuilder) Create() *vehicleBuilder {
 		-1,
 		false,
 	)
+
+	if v.id == -1 {
+		panic("CreateVehicle falhou: vehicle id inválido")
+	}
 	return v
 }
 

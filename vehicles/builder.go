@@ -41,13 +41,16 @@ type engineBuilder struct {
 func Builder() *vehicleBuilder {
 	v := new(vehicleBuilder)
 	v.id = -1
+
 	return v
 }
 
 /*Funcao par ser funcar*/
 func (v *vehicleBuilder) Engine() *engineBuilder {
 	e := new(engineBuilder)
+	
 	e.v = v
+
 	return e
 }
 

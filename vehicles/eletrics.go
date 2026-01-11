@@ -119,3 +119,10 @@ func (e *eletricsBuilder) IntroduceElectricalDrain() {
 		e.v.Eletrics().ToggleLights()
 	}
 }
+
+/*
+Exit() retornará o vehicleBuilder
+*/
+func (e *eletricsBuilder) Exit() *vehicleBuilder {
+	return e.v
+}

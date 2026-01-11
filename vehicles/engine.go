@@ -165,3 +165,10 @@ func (e *engineBuilder) TurnOff() *engineBuilder {
 	)
 	return e
 }
+
+/*
+Exit() retornará o vehicleBuilder
+*/
+func (e *engineBuilder) Exit() *vehicleBuilder {
+	return e.v
+}

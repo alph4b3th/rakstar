@@ -3,7 +3,6 @@ package server
 import (
 	"time"
 
-	"github.com/alph4b3th/rakstar/chat"
 	"github.com/alph4b3th/rakstar/internal/natives"
 )
 
@@ -20,12 +19,9 @@ func (rb *ServerBuild) Wait(wait ...time.Duration) *ServerBuild {
 	return rb
 }
 
-func (rb *ServerBuild) Expulse(cb *chat.ChatBuilder) *ServerBuild {
+func (rb *ServerBuild) Expulse() *ServerBuild {
 	if rb.playerID == -1 {
 		return rb
-	}
-	if cb != nil {
-		cb.Send()
 	}
 
 	natives.Kick(rb.playerID)

@@ -121,9 +121,14 @@ func (pb *PlayerBuilder) ApplyAnimation(animlib string, animname string, fDelta 
 }
 
 func (pb *PlayerBuilder) ExitVehicle() *PlayerBuilder {
-	if pb.Vehicle() == -1{
+	if pb.Vehicle() == -1 {
 		return pb
 	}
 	natives.RemovePlayerFromVehicle(pb.ID)
+	return pb
+}
+
+func (pb *PlayerBuilder) AttachedObject(index, modelId, bone int, offsetX, offsetY, offsetZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ float32, color1, color2 int) *PlayerBuilder {
+	natives.SetPlayerAttachedObject(pb.ID, index, modelId, bone, offsetX, offsetY, offsetZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ, color1, color2)
 	return pb
 }

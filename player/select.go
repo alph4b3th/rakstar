@@ -5,6 +5,11 @@ import (
 	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
 )
 
+func (pb *PlayerBuilder) Color(color int) *PlayerBuilder {
+	natives.SetPlayerColor(pb.ID, color)
+	return pb
+}
+
 // Select é um operador lógico que seleciona um jogador com base em um apelido ou ID
 // fornecido.
 // Ele recebe um argumento que pode ser uma string (representando o apelido do jogador)

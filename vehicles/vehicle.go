@@ -42,6 +42,13 @@ func (v *vehicleBuilder) SetCoordinate(x, y, z, rotate float32) *vehicleBuilder 
 	return v
 }
 
+//Coordinate recebe ponteiros x,y,z, e preencherá os ponteiros
+//com as coordenadas do veículo selecionado.
+func (v *vehicleBuilder) Coordinate(x, y, z *float32) *vehicleBuilder {
+	natives.GetVehiclePos(v.id, x,y,z)
+	return v
+}
+
 /*
 SetHealth é um método que define a saúde do veículo.
   - Ele recebe um argumento float32 'h' que representa a nova saúde do veículo.

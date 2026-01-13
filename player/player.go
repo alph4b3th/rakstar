@@ -132,3 +132,8 @@ func (pb *PlayerBuilder) AttachedObject(index, modelId, bone int, offsetX, offse
 	natives.SetPlayerAttachedObject(pb.ID, index, modelId, bone, offsetX, offsetY, offsetZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ, color1, color2)
 	return pb
 }
+
+func (pb *PlayerBuilder) RemoveObject(index int) *PlayerBuilder {
+	natives.RemovePlayerAttachedObject(pb.ID, index)
+	return pb
+}

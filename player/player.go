@@ -120,6 +120,11 @@ func (pb *PlayerBuilder) ApplyAnimation(animlib string, animname string, fDelta 
 	return pb
 }
 
+func (pb *PlayerBuilder) PlayerControllable(toogle bool) *PlayerBuilder {
+	natives.TogglePlayerControllable(pb.ID, toogle)
+	return pb
+}
+
 func (pb *PlayerBuilder) ExitVehicle() *PlayerBuilder {
 	if pb.Vehicle() == -1 {
 		return pb

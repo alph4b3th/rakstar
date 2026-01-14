@@ -6,25 +6,25 @@ import (
 	"github.com/alph4b3th/rakstar/internal/natives"
 )
 
-func (rb *ServerBuild) Player(playerid int) *ServerBuild {
-	rb.playerID = playerid
-	return rb
+func (sb *ServerBuild) Player(playerid int) *ServerBuild {
+	sb.playerID = playerid
+	return sb
 }
 
-func (rb *ServerBuild) Wait(wait ...time.Duration) *ServerBuild {
+func (sb *ServerBuild) Wait(wait ...time.Duration) *ServerBuild {
 	if wait[0].Seconds() < 1 {
 		wait[0] = time.Second
 	}
 	time.Sleep(wait[0])
-	return rb
+	return sb
 }
 
-func (rb *ServerBuild) Expulse() *ServerBuild {
-	if rb.playerID == -1 {
-		return rb
+func (sb *ServerBuild) Expulse() *ServerBuild {
+	if sb.playerID == -1 {
+		return sb
 	}
 
-	natives.Kick(rb.playerID)
+	natives.Kick(sb.playerID)
 
-	return rb
+	return sb
 }

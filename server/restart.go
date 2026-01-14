@@ -21,9 +21,9 @@ Exemplo: "O servidor reiniciará"
   - O servidor reiniciará - 1
   - O servidor reiniciará - 0
 */
-func (rb *ServerBuild) MessageLoop(msg string) *ServerBuild {
-	rb.msgLoop = msg
-	return rb
+func (sb *ServerBuild) MessageLoop(msg string) *ServerBuild {
+	sb.msgLoop = msg
+	return sb
 }
 
 /*
@@ -54,12 +54,12 @@ RestartNow(cb)
 
 ... servidor reiniciou
 */
-func (rb *ServerBuild) RestartNow(cb *chat.ChatBuilder) *ServerBuild {
+func (sb *ServerBuild) RestartNow(cb *chat.ChatBuilder) *ServerBuild {
 	if cb != nil {
 		cb.Send()
 	}
-	if rb.msgLoop == "" {
-		rb.msgLoop = "o servidor reiniciará"
+	if sb.msgLoop == "" {
+		sb.msgLoop = "o servidor reiniciará"
 	}
 
 	time.Sleep(7 * time.Second)
@@ -68,10 +68,10 @@ func (rb *ServerBuild) RestartNow(cb *chat.ChatBuilder) *ServerBuild {
 		cb.
 			Range(chat.Global).
 			Message(fmt.
-				Sprintf("%v - %v", rb.msgLoop, i)).
+				Sprintf("%v - %v", sb.msgLoop, i)).
 			Send()
 	}
 
 	natives.SendRconCommand("gmx")
-	return rb
+	return sb
 }

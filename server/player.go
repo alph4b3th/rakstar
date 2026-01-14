@@ -12,17 +12,17 @@ var (
 	ErrFailureGetIp = errors.New("Failure to obtain player's IP address.")
 )
 
-func (rb *ServerBuild) Spawn(cb *chat.ChatBuilder) *ServerBuild {
+func (sb *ServerBuild) Spawn(cb *chat.ChatBuilder) *ServerBuild {
 
 	if cb != nil {
 		cb.Send()
 	}
-	natives.SpawnPlayer(rb.playerID)
-	return rb
+	natives.SpawnPlayer(sb.playerID)
+	return sb
 }
 
 // Invocar esta função retornará o IP do jogador
-func (rb *ServerBuild) GetIP(player player.PlayerBuilder) (string, error) {
+func (sb *ServerBuild) GetIP(player player.PlayerBuilder) (string, error) {
 	var ip string
 	sucess := natives.GetPlayerIp(player.ID, &ip, 16)
 	if !sucess {
@@ -31,8 +31,8 @@ func (rb *ServerBuild) GetIP(player player.PlayerBuilder) (string, error) {
 	return ip, nil
 }
 
-func (rb *ServerBuild) UsePlayerPedAnims() *ServerBuild {
+func (sb *ServerBuild) UsePlayerPedAnims() *ServerBuild {
 
 	natives.UsePlayerPedAnims()
-	return rb
+	return sb
 }

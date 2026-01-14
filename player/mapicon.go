@@ -36,13 +36,13 @@ func updateMapIcon(tick *time.Ticker) {
 				continue
 			}
 
-			px, py, pz, _, err := Builder().Select(playerId).Coordinate()
+			px, py, pz, _, err := Builder().Select(playerId).Coordinate() //obtem coordenadas
 			if err != nil {
 				continue
 			}
 
 			for slotId, ic := range icons {
-				distanceRender := utils.CalculateDistance(px, py, pz, ic.x, ic.y, ic.z)
+				distanceRender := utils.CalculateDistance(px, py, pz, ic.x, ic.y, ic.z) //calcula distancia entre jogador e icones
 
 				if distanceRender < 200.0 {
 					natives.SetPlayerMapIcon(playerId, slotId, ic.x, ic.y, ic.z, ic.marketType, ic.color, ic.style)

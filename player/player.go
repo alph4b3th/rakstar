@@ -142,3 +142,13 @@ func (pb *PlayerBuilder) RemoveObject(index int) *PlayerBuilder {
 	natives.RemovePlayerAttachedObject(pb.ID, index)
 	return pb
 }
+
+func (pb *PlayerBuilder) MapIcon(iconId int, x, y, z float32, marketType, color, style int) *PlayerBuilder {
+	natives.SetPlayerMapIcon(pb.ID, iconId, x, y, z, marketType, color, style)
+	return pb
+}
+
+func (pb *PlayerBuilder) RemoveMapIcon(iconId int) *PlayerBuilder {
+	natives.RemovePlayerMapIcon(pb.ID, iconId)
+	return pb
+}

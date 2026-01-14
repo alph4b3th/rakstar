@@ -42,10 +42,10 @@ func (v *vehicleBuilder) SetCoordinate(x, y, z, rotate float32) *vehicleBuilder 
 	return v
 }
 
-//Coordinate recebe ponteiros x,y,z, e preencherá os ponteiros
-//com as coordenadas do veículo selecionado.
+// Coordinate recebe ponteiros x,y,z, e preencherá os ponteiros
+// com as coordenadas do veículo selecionado.
 func (v *vehicleBuilder) Coordinate(x, y, z *float32) *vehicleBuilder {
-	natives.GetVehiclePos(v.id, x,y,z)
+	natives.GetVehiclePos(v.id, x, y, z)
 	return v
 }
 
@@ -58,6 +58,10 @@ SetHealth é um método que define a saúde do veículo.
 */
 func (v *vehicleBuilder) SetHealth(h float32) *vehicleBuilder {
 	v.health = h
+	return v
+}
+func (v *vehicleBuilder) Health(h *float32) *vehicleBuilder {
+	natives.GetVehicleHealth(v.id, h)
 	return v
 }
 
@@ -128,7 +132,7 @@ func (v *vehicleBuilder) Create() *vehicleBuilder {
 	fmt.Println("color2:", v.colorSecondary)
 	fmt.Println("respawn_delay:", -1)
 	fmt.Println("Siren:", false)
-	
+
 	v.id = natives.CreateVehicle(
 		v.model,
 		v.posX,

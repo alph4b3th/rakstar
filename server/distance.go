@@ -1,9 +1,11 @@
 package server
 
-import "math"
+import (
+	"github.com/alph4b3th/rakstar/utils"
+)
 
-//calculateDistance obtem a distância entre dois pontos.
-//Útil em cenários como:
+// calculateDistance obtem a distância entre dois pontos.
+// Útil em cenários como:
 //
 // - Obter a distância entre um veículo e um jogador
 //
@@ -11,11 +13,8 @@ import "math"
 //
 // - Obter a distância entre dois jogadores
 //
-//A equipe do rakstar, recomenda a utilização desta função em vez
-//de utilizar funções nativas do samp.
+// A equipe do rakstar, recomenda a utilização desta função em vez
+// de utilizar funções nativas do samp.
 func CalculateDistance(x, y, z, x2, y2, z2 float32) float32 {
-	dx := x2 - x
-	dy := y2 - y
-	dz := z2 - z
-	return float32(math.Sqrt(float64(dx*dx + dy*dy + dz*dz)))
+	return utils.CalculateDistance(x, y, z, x2, y2, z2)
 }

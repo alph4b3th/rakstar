@@ -1,6 +1,8 @@
 package dialog
 
 import (
+	"fmt"
+
 	"github.com/alph4b3th/rakstar/internal/natives"
 	"github.com/alph4b3th/rakstar/internal/utils/constants/dialogConst"
 	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
@@ -35,6 +37,22 @@ func (db *DialogBuilder) Title(title string) *DialogBuilder {
 
 func (db *DialogBuilder) Message(msg string) *DialogBuilder {
 	db.DialogRequest.Info = msg
+	return db
+}
+
+func (db *DialogBuilder) AddItem(color, item string) *DialogBuilder {
+	db.DialogRequest.Info += fmt.Sprintf("{%v}%v\n", color, item)
+	return db
+}
+
+func (db *DialogBuilder) AddRow(
+	colorColumn1,
+	column1,
+	colorColumn2,
+	column2,
+	colorColumn3,
+	column3 string) *DialogBuilder {
+	db.DialogRequest.Info += fmt.Sprintf("{%s}%s\t{%s}%s\t{%s}%s\n", colorColumn1, column1, colorColumn2, column2, colorColumn3, column3)
 	return db
 }
 

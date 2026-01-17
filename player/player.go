@@ -143,3 +143,7 @@ func (pb *PlayerBuilder) RemoveObject(index int) *PlayerBuilder {
 	return pb
 }
 
+func (pb *PlayerBuilder) SpecialAction(action int) *PlayerBuilder {
+	natives.SetPlayerSpecialAction(pb.ID, action)
+	return pb
+}

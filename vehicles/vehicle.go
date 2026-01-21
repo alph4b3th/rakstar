@@ -270,6 +270,21 @@ func (v *vehicleBuilder) Destroy() bool {
 	return natives.DestroyVehicle(v.id)
 }
 
+/*LimitVelocity limite a velocidade máxima do veículo
+
+EM CONSTRUÇÃO!!!
+*/
+func (v *vehicleBuilder) LimitVelocity(max float32, playerId int) *vehicleBuilder {
+
+	VelocityLimters[v.ID()] = limiter{
+		max:      max,
+		playerId: playerId,
+		builder:  v,
+	}
+	return v
+}
+
+
 /*
 VehicleModelName é um método que está em construção, que recebe um
 ID de modelo [ID DOS MODELOS] e retorna o nome respectivo do veículo

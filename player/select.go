@@ -2,7 +2,7 @@ package player
 
 import (
 	"github.com/alph4b3th/rakstar/internal/natives"
-	"github.com/alph4b3th/rakstar/internal/utils/constants/playerConst"
+	"github.com/alph4b3th/rakstar/utils"
 )
 
 func (pb *PlayerBuilder) Color(color int) *PlayerBuilder {
@@ -21,22 +21,6 @@ func (pb *PlayerBuilder) Color(color int) *PlayerBuilder {
 // Se o argumento for um inteiro, o método simplesmente definirá o campo ID do objeto
 // PlayerBuilder para esse inteiro.
 func (pb *PlayerBuilder) Select(arg interface{}) *PlayerBuilder {
-	switch v := arg.(type) {
-	case string:
-		var name string
-		for i := 0; i < playerConst.MaxPlayers; i++ {
-			natives.GetPlayerName(i, &name, playerConst.MaxPlayerName)
-			if name == v {
-				pb.ID = i
-			}
-			return pb
-
-		}
-	case int:
-		pb.ID = v
-		return pb
-
-	}
-
+	pb.ID = utils.SelectPlayer(arg)
 	return pb
 }

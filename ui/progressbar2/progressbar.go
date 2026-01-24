@@ -438,7 +438,9 @@ func (ui *UserInterface) computeBoundary() [E_PBAR_BOUNDARY_SIZE]float32 {
 	b[E_PBAR_VALUE_POS_X] = valuePosX1
 	b[E_PBAR_VALUE_POS_Y] = valuePosY1
 	b[E_PBAR_VALUE_RIGHT] = valuePosX2
-	b[E_PBAR_VALUE_HEIGHT] = 0.1 * (valuePosY2 - valuePosY1)
+	// b[E_PBAR_VALUE_HEIGHT] = 0.1 * (valuePosY2 - valuePosY1)
+	b[E_PBAR_VALUE_HEIGHT] = 0.1 * (innerPosY2 - innerPosY1)
+
 
 	return b
 }

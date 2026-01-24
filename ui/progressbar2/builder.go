@@ -1,4 +1,4 @@
-package ui
+package progressbar2
 
 type UserInterface struct {
 	pID         int

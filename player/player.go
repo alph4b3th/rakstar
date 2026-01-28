@@ -16,18 +16,12 @@ var (
 
 // Life define a vida do player
 func (pb *PlayerBuilder) Life(life float32) *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.SetPlayerHealth(pb.ID, life)
 	return pb
 }
 
 // Armour define a armadura(colete) do jogador
 func (pb *PlayerBuilder) Armour(Armour float32) *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.SetPlayerArmour(pb.ID, Armour)
 	return pb
 }
@@ -37,9 +31,6 @@ func (pb *PlayerBuilder) Armour(Armour float32) *PlayerBuilder {
 // O ID do jogador é acessado através do campo ID do objeto PlayerBuilder.
 // Após chamar a função nativa, o método retorna o próprio objeto PlayerBuilder.
 func (pb *PlayerBuilder) Spawn() *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.SpawnPlayer(pb.ID)
 	return pb
 }
@@ -54,9 +45,6 @@ func (pb *PlayerBuilder) Spawn() *PlayerBuilder {
 // em playerConst.
 // Após chamar a função nativa, o método retorna o próprio objeto PlayerBuilder.
 func (pb *PlayerBuilder) Nick(nick *string) *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.GetPlayerName(pb.ID, nick, playerConst.MaxPlayerName)
 	return pb
 }
@@ -64,9 +52,6 @@ func (pb *PlayerBuilder) Nick(nick *string) *PlayerBuilder {
 // GetCoordinate obtém a coordenada do jogador e a direção de
 // que o jogador está olhando
 func (pb *PlayerBuilder) Coordinate() (float32, float32, float32, float32, error) {
-	mu.Lock()
-	defer mu.Unlock()
-
 	var (
 		rotation float32
 		x, y, z  float32
@@ -86,9 +71,6 @@ func (pb *PlayerBuilder) Coordinate() (float32, float32, float32, float32, error
 // rotação baseada na bússula. Ou seja, a direção que o jogador
 // está olhando
 func (pb *PlayerBuilder) Teleport(x, y, z, r float32) error {
-	mu.Lock()
-	defer mu.Unlock()
-
 	sucess := natives.SetPlayerPos(pb.ID, x, y, z)
 	sucess2 := natives.SetPlayerFacingAngle(pb.ID, r)
 	if !sucess || !sucess2 {
@@ -100,9 +82,6 @@ func (pb *PlayerBuilder) Teleport(x, y, z, r float32) error {
 // InVehicle é verdadeiro se o jogador está dentro de um
 // veículo, caso contrário será falso
 func (pb *PlayerBuilder) InVehicle() bool {
-	mu.Lock()
-	defer mu.Unlock()
-
 	return natives.IsPlayerInAnyVehicle(pb.ID)
 }
 
@@ -110,17 +89,11 @@ func (pb *PlayerBuilder) InVehicle() bool {
 // Retornará -1 para um ID inválido ou se o jogador
 // não estiver em nenhum veículo
 func (pb *PlayerBuilder) Vehicle() int {
-	mu.Lock()
-	defer mu.Unlock()
-
 	return natives.GetPlayerVehicleID(pb.ID)
 }
 
 // DeleteCurrentVehicle destruirá o veículo do jogador
 func (pb *PlayerBuilder) DeleteCurrentVehicle() bool {
-	mu.Lock()
-	defer mu.Unlock()
-
 	vehID := natives.GetPlayerVehicleID(pb.ID)
 	return natives.DestroyVehicle(vehID)
 }
@@ -130,9 +103,6 @@ func (pb *PlayerBuilder) DeleteCurrentVehicle() bool {
 //
 // [ID SKINS]: https://sampwiki.blast.hk/wiki/Skins:All
 func (pb *PlayerBuilder) SelectCharacter(skin int) error {
-	mu.Lock()
-	defer mu.Unlock()
-
 	sucess := natives.SetPlayerSkin(pb.ID, skin)
 	if !sucess {
 		return ErrFailSetCharacter
@@ -141,33 +111,21 @@ func (pb *PlayerBuilder) SelectCharacter(skin int) error {
 }
 
 func (pb *PlayerBuilder) SetSpawnInfo(team, skin int, x, y, z, r float32, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3 int) *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.SetSpawnInfo(pb.ID, team, skin, x, y, z, r, weapon1, ammo1, weapon2, ammo2, weapon3, ammo3)
 	return pb
 }
 
 func (pb *PlayerBuilder) ApplyAnimation(animlib string, animname string, fDelta float32, loop bool, lockx bool, locky bool, freeze bool, time int, forcesync bool) *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.ApplyAnimation(pb.ID, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync)
 	return pb
 }
 
 func (pb *PlayerBuilder) PlayerControllable(toogle bool) *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.TogglePlayerControllable(pb.ID, toogle)
 	return pb
 }
 
 func (pb *PlayerBuilder) ExitVehicle() *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	if pb.Vehicle() == -1 {
 		return pb
 	}
@@ -176,25 +134,16 @@ func (pb *PlayerBuilder) ExitVehicle() *PlayerBuilder {
 }
 
 func (pb *PlayerBuilder) AttachedObject(index, modelId, bone int, offsetX, offsetY, offsetZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ float32, color1, color2 int) *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.SetPlayerAttachedObject(pb.ID, index, modelId, bone, offsetX, offsetY, offsetZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ, color1, color2)
 	return pb
 }
 
 func (pb *PlayerBuilder) RemoveObject(index int) *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.RemovePlayerAttachedObject(pb.ID, index)
 	return pb
 }
 
 func (pb *PlayerBuilder) SpecialAction(action int) *PlayerBuilder {
-	mu.Lock()
-	defer mu.Unlock()
-
 	natives.SetPlayerSpecialAction(pb.ID, action)
 	return pb
 }

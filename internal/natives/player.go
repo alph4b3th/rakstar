@@ -13,6 +13,9 @@ type Player struct {
 
 // GetName returns the players name.
 func (p *Player) GetName() string {
+	mu.Lock()
+	defer mu.Unlock()
+
 	var name string
 	GetPlayerName(p.ID, &name, playerConst.MaxPlayerName)
 	return name
@@ -20,6 +23,9 @@ func (p *Player) GetName() string {
 
 // SetName sets the players name.
 func (p *Player) SetName(name string) error {
+	mu.Lock()
+	defer mu.Unlock()
+
 	if len(name) > 24 {
 		return fmt.Errorf("name length above 24 chars")
 	}
@@ -40,6 +46,9 @@ func (p *Player) SetName(name string) error {
 
 // SendMessage allows you to send a player a message.
 func (p *Player) SendMessage(colour int, msg string) error {
+	mu.Lock()
+	defer mu.Unlock()
+
 	if len(msg) < 1 {
 		return fmt.Errorf("msg too short")
 	}
@@ -55,6 +64,9 @@ func (p *Player) SendMessage(colour int, msg string) error {
 
 // GetPos gets the player's current position.
 func (p *Player) GetPos() (float32, float32, float32, error) {
+	mu.Lock()
+	defer mu.Unlock()
+
 	var x, y, z float32
 	if !GetPlayerPos(p.ID, &x, &y, &z) {
 		return x, y, z, fmt.Errorf("GetPlayerPos failure (i.e. player not connected)")
@@ -72,6 +84,9 @@ func (p *Player) SetPos(x, y, z float32) error {
 
 // Spawn spawns the player.
 func (p *Player) Spawn() error {
+	mu.Lock()
+	defer mu.Unlock()
+
 	if !SpawnPlayer(p.ID) {
 		return fmt.Errorf("player was unable to be spawned")
 	}
@@ -79,6 +94,9 @@ func (p *Player) Spawn() error {
 }
 
 func (p *Player) ShowDialog(dialogid, style int, caption, info, button1, button2 string) error {
+	mu.Lock()
+	defer mu.Unlock()
+
 	if !ShowPlayerDialog(p.ID, dialogid, style, caption, info, button1, button2) {
 		return fmt.Errorf("couldn't show dialog")
 	}
@@ -86,6 +104,9 @@ func (p *Player) ShowDialog(dialogid, style int, caption, info, button1, button2
 }
 
 func (p *Player) GetFacingAngle() (float32, error) {
+	mu.Lock()
+	defer mu.Unlock()
+
 	var a float32
 	if !GetPlayerFacingAngle(p.ID, &a) {
 		return a, fmt.Errorf("invalid player")

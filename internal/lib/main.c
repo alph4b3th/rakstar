@@ -501,10 +501,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamageActor(int playerid, int damaged
  * \ingroup callbacks
  * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerClickMap">OnPlayerClickMap on SA-MP Wiki</a>
  */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickMap(int playerid, float fX, float fY, float fZ)
-{
-    onPlayerClickMap(playerid, fX, fY, fZ);
-    return true;
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickMap(int playerid, float fX,
+                                                float fY, float fZ) {
+  onPlayerClickMap(playerid, (double)fX, (double)fY, (double)fZ);
+  return true;
 }
 
 /**

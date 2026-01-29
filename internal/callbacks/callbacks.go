@@ -811,7 +811,7 @@ func onPlayerGiveDamageActor(playerid C.int, damaged_actorid C.int, amount C.flo
 }
 
 //export onPlayerClickMap
-func onPlayerClickMap(playerid C.int, fX C.float, fY C.float, fZ C.float) bool {
+func onPlayerClickMap(playerid C.int, fX C.double, fY C.double, fZ C.double) bool {
 	evt, ok := Events["playerClickMap"]
 	if !ok {
 		return false

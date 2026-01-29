@@ -84,6 +84,7 @@ extern bool onPlayerGiveDamage(int playerid, int damagedid, float amount, int we
 
 extern bool onPlayerGiveDamageActor(int playerid, int damaged_actorid, float amount, int weaponid, int bodypart);
 extern bool onPlayerClickMap(int playerid, float fX, float fY, float fZ);
+extern bool onPlayerClickMap(int playerid, double fX, double fY, double fZ);
 
 extern bool onPlayerClickTextDraw(int playerid, int clickedid);
 extern bool onPlayerClickPlayerTextDraw(int playerid, int playertextid);

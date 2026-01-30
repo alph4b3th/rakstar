@@ -18,14 +18,14 @@ package serverlog
 */
 import "C"
 import (
-	"unsafe"
+// "unsafe"
 )
 
 // Print allows you to print to the SAMP console.
 func Print(msg string) error {
-	cstr := C.CString(msg)
-	defer C.free(unsafe.Pointer(cstr))
-	C.goLogprintf(cstr)
+	// cstr := C.CString(msg)
+	// defer C.free(unsafe.Pointer(cstr))
+	// C.goLogprintf(cstr)
 
 	return nil
 }

@@ -1,663 +1,583 @@
-// -
-// rakstar
-// interop.h
-// -
-
 #include "main.h"
 
-AMX_NATIVE_INFO native_list[] = {
-	{ "rakstar_CallEvent", n_CallEvent },
-	{ NULL, NULL }
-};
-
-// GoInt32: rakstar_CallEvent(const event[32], const format[], {Float,_}:...);
-cell AMX_NATIVE_CALL n_CallEvent(AMX* amx, cell* params)
-{
-    int
-        len = (int) NULL
-    ;
-
-    cell *addr  = NULL;
-
-    amx_GetAddr(amx, params[1], &addr);
-    amx_StrLen(addr, &len);
-
-    if (!len) {
-        sampgdk_logprintf("(C) rakstar: Empty event name passed to n_CallEvent");
-        return false;
-    }
-
-    ++ len;
-    char* event = malloc( sizeof(char) * (len));
-    amx_GetString(event, addr, 0, len);
-
-    len = (int) NULL;
-
-    amx_GetAddr(amx, params[2], &addr);
-    amx_StrLen(addr, &len);
-
-    ++ len;
-    char* format = malloc( sizeof(char) * (len));
-    amx_GetString(format, addr, 0, len);
-
-    bool retval = callEvent(&amx, event, format, params);
-
-    sampgdk_logprintf("(C) rakstar: Received event name (%s) with format (%s) and retval (%i)", event, format, retval);
-
-    free(event);
-    free(format);
-    return retval;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnGameModeInit">OnGameModeInit on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
-{
-    onGameModeInit();
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnGameModeExit">OnGameModeExit on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit()
-{
-    onGameModeExit();
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerConnect">OnPlayerConnect on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
-{
-    onPlayerConnect(playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerDisconnect">OnPlayerDisconnect on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
-{
-    onPlayerDisconnect(playerid, reason);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerSpawn">OnPlayerSpawn on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
-{
-    onPlayerSpawn(playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerDeath">OnPlayerDeath on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason)
-{
-    onPlayerDeath(playerid, killerid, reason);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnVehicleSpawn">OnVehicleSpawn on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleSpawn(int vehicleid)
-{
-    onVehicleSpawn(vehicleid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnVehicleDeath">OnVehicleDeath on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid)
-{
-    onVehicleDeath(vehicleid, killerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerText">OnPlayerText on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int playerid, const char* text)
-{
-    return onPlayerText(playerid, text);
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerCommandText">OnPlayerCommandText on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char* cmdtext)
-{
-    return onPlayerCommandText(playerid, cmdtext);
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerRequestClass">OnPlayerRequestClass on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)
-{
-    onPlayerRequestClass(playerid, classid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerEnterVehicle">OnPlayerEnterVehicle on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterVehicle(int playerid, int vehicleid, bool ispassenger)
-{
-    onPlayerEnterVehicle(playerid, vehicleid, ispassenger);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerExitVehicle">OnPlayerExitVehicle on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitVehicle(int playerid, int vehicleid)
-{
-    onPlayerExitVehicle(playerid, vehicleid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerStateChange">OnPlayerStateChange on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, int oldstate)
-{
-    onPlayerStateChange(playerid, newstate, oldstate);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerEnterCheckpoint">OnPlayerEnterCheckpoint on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterCheckpoint(int playerid)
-{
-    onPlayerEnterCheckpoint(playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerLeaveCheckpoint">OnPlayerLeaveCheckpoint on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveCheckpoint(int playerid)
-{
-    onPlayerLeaveCheckpoint(playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerEnterRaceCheckpoint">OnPlayerEnterRaceCheckpoint on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterRaceCheckpoint(int playerid)
-{
-    onPlayerEnterRaceCheckpoint(playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerLeaveRaceCheckpoint">OnPlayerLeaveRaceCheckpoint on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid)
-{
-    onPlayerLeaveRaceCheckpoint(playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnRconCommand">OnRconCommand on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char* cmd)
-{
-    onRconCommand(cmd);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerRequestSpawn">OnPlayerRequestSpawn on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestSpawn(int playerid)
-{
-    onPlayerRequestSpawn(playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnObjectMoved">OnObjectMoved on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnObjectMoved(int objectid)
-{
-    onObjectMoved(objectid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerObjectMoved">OnPlayerObjectMoved on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerObjectMoved(int playerid, int objectid)
-{
-    onPlayerObjectMoved(playerid, objectid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerPickUpPickup">OnPlayerPickUpPickup on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerPickUpPickup(int playerid, int pickupid)
-{
-    onPlayerPickUpPickup(playerid, pickupid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnVehicleMod">OnVehicleMod on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleMod(int playerid, int vehicleid, int componentid)
-{
-    onVehicleMod(playerid, vehicleid, componentid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnEnterExitModShop">OnEnterExitModShop on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnEnterExitModShop(int playerid, bool enterexit, int interiorid)
-{
-    onEnterExitModShop(playerid, enterexit, interiorid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnVehiclePaintjob">OnVehiclePaintjob on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid)
-{
-    onVehiclePaintjob(playerid, vehicleid, paintjobid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnVehicleRespray">OnVehicleRespray on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleRespray(int playerid, int vehicleid, int color1, int color2)
-{
-    onVehicleRespray(playerid, vehicleid, color1, color2);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnVehicleDamageStatusUpdate">OnVehicleDamageStatusUpdate on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int playerid)
-{
-    onVehicleDamageStatusUpdate(vehicleid, playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnUnoccupiedVehicleUpdate">OnUnoccupiedVehicleUpdate on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat, float new_x, float new_y, float new_z, float vel_x, float vel_y, float vel_z)
-{
-    onUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, new_x, new_y, new_z, vel_x, vel_y, vel_z);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerSelectedMenuRow">OnPlayerSelectedMenuRow on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row)
-{
-    onPlayerSelectedMenuRow(playerid, row);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerExitedMenu">OnPlayerExitedMenu on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitedMenu(int playerid)
-{
-    onPlayerExitedMenu(playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerInteriorChange">OnPlayerInteriorChange on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid)
-{
-    onPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerKeyStateChange">OnPlayerKeyStateChange on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys)
-{
-    onPlayerKeyStateChange(playerid, newkeys, oldkeys);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnRconLoginAttempt">OnRconLoginAttempt on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnRconLoginAttempt(const char* ip, const char* password, bool success)
-{
-    onRconLoginAttempt(ip, password, success);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerUpdate">OnPlayerUpdate on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
-{
-    onPlayerUpdate(playerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerStreamIn">OnPlayerStreamIn on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamIn(int playerid, int forplayerid)
-{
-    onPlayerStreamIn(playerid, forplayerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerStreamOut">OnPlayerStreamOut on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamOut(int playerid, int forplayerid)
-{
-    onPlayerStreamOut(playerid, forplayerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnVehicleStreamIn">OnVehicleStreamIn on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamIn(int vehicleid, int forplayerid)
-{
-    onVehicleStreamIn(vehicleid, forplayerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnVehicleStreamOut">OnVehicleStreamOut on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamOut(int vehicleid, int forplayerid)
-{
-    onVehicleStreamOut(vehicleid, forplayerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnActorStreamIn">OnActorStreamIn on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnActorStreamIn(int actorid, int forplayerid)
-{
-    onActorStreamIn(actorid, forplayerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnActorStreamOut">OnActorStreamOut on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnActorStreamOut(int actorid, int forplayerid)
-{
-    onActorStreamOut(actorid, forplayerid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnDialogResponse">OnDialogResponse on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char* inputtext)
-{
-    onDialogResponse(playerid, dialogid, response, listitem, inputtext);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerTakeDamage">OnPlayerTakeDamage on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid, int bodypart)
-{
-    onPlayerTakeDamage(playerid, issuerid, amount, weaponid, bodypart);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerGiveDamage">OnPlayerGiveDamage on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid, int bodypart)
-{
-    onPlayerGiveDamage(playerid, damagedid, amount, weaponid, bodypart);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerGiveDamageActor">OnPlayerGiveDamageActor on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamageActor(int playerid, int damaged_actorid, float amount, int weaponid, int bodypart)
-{
-    onPlayerGiveDamageActor(playerid, damaged_actorid, amount, weaponid, bodypart);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerClickMap">OnPlayerClickMap on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickMap(int playerid, float fX,
-                                                float fY, float fZ) {
-  onPlayerClickMap(playerid, (double)fX, (double)fY, (double)fZ);
-  return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerClickTextDraw">OnPlayerClickTextDraw on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickTextDraw(int playerid, int clickedid)
-{
-    onPlayerClickTextDraw(playerid, clickedid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerClickPlayerTextDraw">OnPlayerClickPlayerTextDraw on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(int playerid, int playertextid)
-{
-    onPlayerClickPlayerTextDraw(playerid, playertextid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnIncomingConnection">OnIncomingConnection on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnIncomingConnection(int playerid, const char* ip_address, int port)
-{
-    onIncomingConnection(playerid, ip_address, port);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnTrailerUpdate">OnTrailerUpdate on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnTrailerUpdate(int playerid, int vehicleid)
-{
-    onTrailerUpdate(playerid, vehicleid);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnVehicleSirenStateChange">OnVehicleSirenStateChange on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleSirenStateChange(int playerid, int vehicleid, int newstate)
-{
-    onVehicleSirenStateChange(playerid, vehicleid, newstate);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerClickPlayer">OnPlayerClickPlayer on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayer(int playerid, int clickedplayerid, int source)
-{
-    onPlayerClickPlayer(playerid, clickedplayerid, source);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerEditObject">OnPlayerEditObject on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEditObject(int playerid, bool playerobject, int objectid, int response, float fX, float fY, float fZ, float fRotX, float fRotY, float fRotZ)
-{
-    onPlayerEditObject(playerid, playerobject, objectid, response, fX, fY, fZ, fRotX, fRotY, fRotZ);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerEditAttachedObject">OnPlayerEditAttachedObject on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEditAttachedObject(int playerid, int response, int index, int modelid, int boneid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ)
-{
-    onPlayerEditAttachedObject(playerid, response, index, modelid, boneid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerSelectObject">OnPlayerSelectObject on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectObject(int playerid, int type, int objectid, int modelid, float fX, float fY, float fZ)
-{
-    onPlayerSelectObject(playerid, type, objectid, modelid, fX, fY, fZ);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerWeaponShot">OnPlayerWeaponShot on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerWeaponShot(int playerid, int weaponid, int hittype, int hitid, float fX, float fY, float fZ)
-{
-    onPlayerWeaponShot(playerid, weaponid, hittype, hitid, fX, fY, fZ);
-    return true;
-}
-
-/**
- * \ingroup callbacks
- * \see <a href="http://wiki.sa-mp.com/wiki/OnPlayerRequestDownload">OnPlayerRequestDownload on SA-MP Wiki</a>
- */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestDownload(int playerid, int type, int crc)
-{
-    onPlayerRequestDownload(playerid, type, crc);
-    return true;
-}
-
-PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
-{
-    return sampgdk_Supports() | SUPPORTS_PROCESS_TICK | SUPPORTS_AMX_NATIVES;
-}
-
-PLUGIN_EXPORT bool PLUGIN_CALL Load(void** ppData)
-{
-    sampgdk_Load(ppData, 0);
-    return true;
-}
-
-PLUGIN_EXPORT void PLUGIN_CALL Unload()
-{
-    sampgdk_Unload(0);
-}
-
-PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
-{
-    onTick();
-    sampgdk_ProcessTick(0);
-}
-
-PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
-    return amx_Register(amx, native_list, -1);
-}
-
-PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
-    return AMX_ERR_NONE;
-}
-
-void goLogprintf(char* text)
-{
-    sampgdk_logprintf((const char*)text);
-}
-
-char* constToNonConst(const char* text)
-{
-    return (char*)text;
-}
-
-const char* nonConstToConst(char* text)
-{
-    return (const char*)text;
+struct OMPAPI_t api;
+
+struct ComponentVersion componentVersion;
+char *componentName = NULL;
+
+char *constToNonConst(const char *text) { return (char *)text; }
+
+const char *nonConstToConst(char *text) { return (const char *)text; }
+
+void _onReady() { printf("onReady\n"); }
+void _onReset() { printf("onReset\n"); }
+void _onFree() {
+  printf("onFree\n");
+
+  if (componentName != NULL) {
+    free(componentName);
+  }
+}
+
+bool _onPlayerConnect(struct EventArgs_onPlayerConnect *args) {
+  int playerid = api.Player.GetID(*args->list->player);
+
+  return onPlayerConnect(playerid);
+}
+
+bool _onPlayerDisconnect(struct EventArgs_onPlayerDisconnect *args) {
+  int playerid = api.Player.GetID(*args->list->player);
+  int reason = *args->list->reason;
+
+  return onPlayerDisconnect(playerid, reason);
+}
+
+bool _onPlayerRequestClass(struct EventArgs_onPlayerRequestClass *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int classId = -1;
+
+  if (args->list->classId != NULL) {
+    classId = *args->list->classId;
+  }
+
+  return onPlayerRequestClass(playerId, classId);
+}
+
+bool _onPlayerRequestSpawn(struct EventArgs_onPlayerRequestSpawn *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+
+  return onPlayerRequestSpawn(playerId);
+}
+
+bool _onPlayerSpawn(struct EventArgs_onPlayerSpawn *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+
+  return onPlayerSpawn(playerId);
+}
+
+bool _onPlayerDeath(struct EventArgs_onPlayerDeath *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int killerId = api.Player.GetID(*args->list->killer);
+  int reason = *args->list->reason;
+
+  return onPlayerDeath(playerId, killerId, reason);
+}
+
+bool _onPlayerUpdate(struct EventArgs_onPlayerUpdate *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+
+  return onPlayerUpdate(playerId);
+}
+
+bool _onPlayerText(struct EventArgs_onPlayerText *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  char *text = (char *)args->list->text->data;
+
+  return onPlayerText(playerId, text);
+}
+
+bool _onPlayerCommandText(struct EventArgs_onPlayerCommandText *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  char *command = (char *)args->list->command->data;
+
+  return onPlayerCommandText(playerId, command);
+}
+
+bool _onPlayerInteriorChange(struct EventArgs_onPlayerInteriorChange *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int newInteriorId = *args->list->newInterior;
+  int oldInteriorId = *args->list->oldInterior;
+
+  return onPlayerInteriorChange(playerId, newInteriorId, oldInteriorId);
+}
+
+bool _onPlayerStateChange(struct EventArgs_onPlayerStateChange *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int newState = *args->list->newState;
+  int oldState = *args->list->oldState;
+
+  return onPlayerStateChange(playerId, newState, oldState);
+}
+
+bool _onPlayerKeyStateChange(struct EventArgs_onPlayerKeyStateChange *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int newKeys = *args->list->newKeys;
+  int oldKeys = *args->list->oldKeys;
+
+  return onPlayerKeyStateChange(playerId, newKeys, oldKeys);
+}
+
+bool _onPlayerEnterVehicle(struct EventArgs_onPlayerEnterVehicle *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  bool isPassenger = *args->list->passenger;
+
+  return onPlayerEnterVehicle(playerId, vehicleId, isPassenger);
+}
+
+bool _onPlayerExitVehicle(struct EventArgs_onPlayerExitVehicle *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+
+  return onPlayerExitVehicle(playerId, vehicleId);
+}
+
+bool _onPlayerEnterCheckpoint(struct EventArgs_onPlayerEnterCheckpoint *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+
+  return onPlayerEnterCheckpoint(playerId);
+}
+
+bool _onPlayerLeaveCheckpoint(struct EventArgs_onPlayerLeaveCheckpoint *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+
+  return onPlayerLeaveCheckpoint(playerId);
+}
+
+bool _onPlayerEnterRaceCheckpoint(
+    struct EventArgs_onPlayerEnterRaceCheckpoint *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+
+  return onPlayerEnterRaceCheckpoint(playerId);
+}
+
+bool _onPlayerLeaveRaceCheckpoint(
+    struct EventArgs_onPlayerLeaveRaceCheckpoint *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+
+  return onPlayerLeaveRaceCheckpoint(playerId);
+}
+
+bool _onPlayerGiveDamage(struct EventArgs_onPlayerGiveDamage *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int damagedId = api.Player.GetID(*args->list->to);
+  int amount = *args->list->amount;
+  int weaponId = *args->list->weapon;
+  int bodyPart = *args->list->bodypart;
+
+  return onPlayerGiveDamage(playerId, damagedId, amount, weaponId, bodyPart);
+}
+
+bool _onPlayerTakeDamage(struct EventArgs_onPlayerTakeDamage *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int issuerId = api.Player.GetID(*args->list->from);
+  int amount = *args->list->amount;
+  int weaponId = *args->list->weapon;
+  int bodyPart = *args->list->bodypart;
+
+  return onPlayerTakeDamage(playerId, issuerId, amount, weaponId, bodyPart);
+}
+
+bool _onPlayerGiveDamageActor(struct EventArgs_onPlayerGiveDamageActor *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int damagedActorId = api.Player.GetID(*args->list->actor);
+  int amount = *args->list->amount;
+  int weaponId = *args->list->weapon;
+  int bodyPart = *args->list->part;
+
+  return onPlayerGiveDamageActor(playerId, damagedActorId, amount, weaponId,
+                                 bodyPart);
+}
+
+// bool _onPlayerWeaponShot(void *args) {
+//   return onPlayerWeaponShot(playerId, weaponId, hitType, hitId, fX, fY, fZ);
+// }
+
+bool _onPlayerPickUpPickup(struct EventArgs_onPlayerPickUpPickup *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int pickupId = api.Pickup.GetID(*args->list->pickup);
+
+  return onPlayerPickUpPickup(playerId, pickupId);
+}
+
+bool _onPlayerObjectMoved(struct EventArgs_onPlayerObjectMove *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int objectId = api.Object.GetID(*args->list->object);
+
+  return onPlayerObjectMoved(playerId, objectId);
+}
+
+bool _onPlayerEditObject(struct EventArgs_onPlayerEditObject *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  bool playerObject =
+      api.PlayerObject.IsValid(*args->list->player, *args->list->object);
+  int objectId = api.Object.GetID(*args->list->object);
+  int response = *args->list->response;
+  float offsetX = *args->list->offsetX;
+  float offsetY = *args->list->offsetY;
+  float offsetZ = *args->list->offsetZ;
+  float rotationX = *args->list->rotationX;
+  float rotationY = *args->list->rotationY;
+  float rotationZ = *args->list->rotationZ;
+
+  return onPlayerEditObject(playerId, playerObject, objectId, response, offsetX,
+                            offsetY, offsetZ, rotationX, rotationY, rotationZ);
+}
+
+// bool _onPlayerEditAttachedObject(
+//     struct EventArgs_onPlayerEditAttachedObject *args) {
+//   return onPlayerEditAttachedObject(playerId, response, index, modelId,
+//   boneId,
+//                                     fOffsetX, fOffsetY, fOffsetZ, fRotX,
+//                                     fRotY, fRotZ, fScaleX, fScaleY, fScaleZ);
+// }
+
+// bool _onPlayerSelectObject(struct EventArgs_onPlayerSelectObject *args) {
+//   return onPlayerSelectObject(playerId, type, objectId, modelId, fX, fY, fZ);
+// }
+
+bool _onPlayerClickMap(struct EventArgs_onPlayerClickMap *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  float x = *args->list->x;
+  float y = *args->list->y;
+  float z = *args->list->z;
+
+  return onPlayerClickMap(playerId, x, y, z);
+}
+
+bool _onPlayerClickTextDraw(struct EventArgs_onPlayerClickTextDraw *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int clickedId = api.TextDraw.GetID(*args->list->textdraw);
+
+  return onPlayerClickTextDraw(playerId, clickedId);
+}
+
+bool _onPlayerClickPlayerTextDraw(
+    struct EventArgs_onPlayerClickPlayerTextDraw *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int playerTextId =
+      api.PlayerTextDraw.GetID(*args->list->player, *args->list->textdraw);
+
+  return onPlayerClickPlayerTextDraw(playerId, playerTextId);
+}
+
+bool _onPlayerClickPlayer(struct EventArgs_onPlayerClickPlayer *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int clickedPlayerId =
+      api.PlayerTextDraw.GetID(*args->list->player, *args->list->clicked);
+  int source = *args->list->source;
+
+  return onPlayerClickPlayer(playerId, clickedPlayerId, source);
+}
+
+bool _onPlayerStreamIn(struct EventArgs_onPlayerStreamIn *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int forPlayerId = api.Player.GetID(*args->list->forPlayer);
+
+  return onPlayerStreamIn(playerId, forPlayerId);
+}
+
+bool _onPlayerStreamOut(struct EventArgs_onPlayerStreamOut *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int forPlayerId = api.Player.GetID(*args->list->forPlayer);
+
+  return onPlayerStreamOut(playerId, forPlayerId);
+}
+
+bool _onPlayerExitedMenu(struct EventArgs_onPlayerExitedMenu *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+
+  return onPlayerExitedMenu(playerId);
+}
+
+bool _onPlayerSelectedMenuRow(struct EventArgs_onPlayerSelectedMenuRow *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int row = *args->list->row;
+
+  printf("Ground control\n");
+
+  return onPlayerSelectedMenuRow(playerId, row);
+}
+
+bool _onPlayerRequestDownload(struct EventArgs_onPlayerRequestDownload *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int type = *args->list->type;
+  int checksum = *args->list->checksum;
+
+  return onPlayerRequestDownload(playerId, type, checksum);
+}
+
+void _onTick(struct EventArgs_onTick *args) { onTick(); }
+
+bool _onIncomingConnection(struct EventArgs_onIncomingConnection *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  char *ipAddress = (char *)args->list->ipAddress->data;
+  int port = *args->list->port;
+
+  return onIncomingConnection(playerId, ipAddress, port);
+}
+
+bool _onRconLoginAttempt(struct EventArgs_onRconLoginAttempt *args) {
+  char *address = (char *)args->list->address->data;
+  char *password = (char *)args->list->password->data;
+  bool success = *args->list->success;
+
+  return onRconLoginAttempt(address, password, success);
+}
+
+bool _onConsoleText(struct EventArgs_onConsoleText *args) {
+  char *cmd = (char *)args->list->command->data;
+
+  return onRconCommand(cmd);
+}
+
+bool _onDialogResponse(struct EventArgs_onDialogResponse *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int dialogId = *args->list->dialogId;
+  int response = *args->list->response;
+  int listItem = *args->list->listItem;
+  char *inputText = (char *)args->list->inputText->data;
+
+  return onDialogResponse(playerId, dialogId, response, listItem, inputText);
+}
+
+bool _onVehicleSpawn(struct EventArgs_onVehicleSpawn *args) {
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+
+  return onVehicleSpawn(vehicleId);
+}
+
+bool _onVehicleDeath(struct EventArgs_onVehicleDeath *args) {
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  int killerId = api.Player.GetID(*args->list->player);
+
+  return onVehicleDeath(vehicleId, killerId);
+}
+
+bool _onVehicleMod(struct EventArgs_onVehicleMod *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  int componentId = *args->list->component;
+
+  return onVehicleMod(playerId, vehicleId, componentId);
+}
+
+bool _onVehiclePaintjob(struct EventArgs_onVehiclePaintJob *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  int paintjobId = *args->list->paintJob;
+
+  return onVehiclePaintjob(playerId, vehicleId, paintjobId);
+}
+
+bool _onVehicleRespray(struct EventArgs_onVehicleRespray *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  int color1 = *args->list->color1;
+  int color2 = *args->list->color2;
+
+  return onVehicleRespray(playerId, vehicleId, color1, color2);
+}
+
+bool _onVehicleDamageStatusUpdate(
+    struct EventArgs_onVehicleDamageStatusUpdate *args) {
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  int playerId = api.Player.GetID(*args->list->player);
+
+  return onVehicleDamageStatusUpdate(vehicleId, playerId);
+}
+
+bool _onVehicleSirenStateChange(
+    struct EventArgs_onVehicleSirenStateChange *args) {
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  int playerId = api.Player.GetID(*args->list->player);
+  int sirenState = *args->list->sirenState;
+
+  return onVehicleSirenStateChange(playerId, vehicleId, sirenState);
+}
+
+bool _onVehicleStreamIn(struct EventArgs_onVehicleStreamIn *args) {
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  int forPlayerId = api.Player.GetID(*args->list->player);
+
+  return onVehicleStreamIn(vehicleId, forPlayerId);
+}
+
+bool _onVehicleStreamOut(struct EventArgs_onVehicleStreamOut *args) {
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  int forPlayerId = api.Player.GetID(*args->list->player);
+
+  return onVehicleStreamOut(vehicleId, forPlayerId);
+}
+
+bool _onUnoccupiedVehicleUpdate(
+    struct EventArgs_onUnoccupiedVehicleUpdate *args) {
+  int vehicleId = api.Vehicle.GetID(*args->list->vehicle);
+  int playerId = api.Player.GetID(*args->list->player);
+  int passengerSeat = *args->list->seat;
+  float newX = *args->list->posX;
+  float newY = *args->list->posY;
+  float newZ = *args->list->posZ;
+  float velocityX = *args->list->velocityX;
+  float velocityY = *args->list->velocityY;
+  float velocityZ = *args->list->velocityZ;
+
+  return onUnoccupiedVehicleUpdate(vehicleId, playerId, passengerSeat, newX,
+                                   newY, newZ, velocityX, velocityY, velocityZ);
+}
+
+bool _onTrailerUpdate(struct EventArgs_onTrailerUpdate *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int trailerId = api.Vehicle.GetID(*args->list->trailer);
+
+  return onTrailerUpdate(playerId, trailerId);
+}
+
+bool _onActorStreamIn(struct EventArgs_onActorStreamIn *args) {
+  int actorId = api.Actor.GetID(*args->list->actor);
+  int forPlayerId = api.Player.GetID(*args->list->forPlayer);
+
+  return onActorStreamIn(actorId, forPlayerId);
+}
+
+bool _onActorStreamOut(struct EventArgs_onActorStreamOut *args) {
+  int actorId = api.Actor.GetID(*args->list->actor);
+  int forPlayerId = api.Player.GetID(*args->list->forPlayer);
+
+  return onActorStreamOut(actorId, forPlayerId);
+}
+
+// bool _onObjectMoved(struct EventArgs_onObjectMoved *args) {
+//   int objectId = api.Object.GetID(*args->list->object);
+//
+//   return onObjectMoved(objectId);
+// }
+
+bool _onEnterExitModShop(struct EventArgs_onEnterExitModShop *args) {
+  int playerId = api.Player.GetID(*args->list->player);
+  int enterExit = *args->list->enterexit;
+  int interiorId = *args->list->interiorId;
+
+  return onEnterExitModShop(playerId, enterExit, interiorId);
+}
+
+OMP_API_EXPORT void *ComponentEntryPoint() {
+  entryPoint();
+
+  if (!omp_initialize_capi(&api)) {
+    printf("Failed to initialize open.mp C API\n");
+    return NULL;
+  }
+
+  if (componentName == NULL) {
+    componentName = strdup("Rakstar");
+  }
+
+  void *comp =
+      api.Component.Create(0x913B89092F8F6A68, componentName, componentVersion,
+                           &_onReady, &_onReset, &_onFree);
+
+  api.Event.AddHandler("onPlayerConnect", EventPriorityType_Highest,
+                       &_onPlayerConnect);
+  api.Event.AddHandler("onPlayerDisconnect", EventPriorityType_Highest,
+                       &_onPlayerDisconnect);
+  api.Event.AddHandler("onPlayerRequestClass", EventPriorityType_Highest,
+                       &_onPlayerRequestClass);
+  api.Event.AddHandler("onPlayerRequestSpawn", EventPriorityType_Highest,
+                       &_onPlayerRequestSpawn);
+  api.Event.AddHandler("onPlayerSpawn", EventPriorityType_Highest,
+                       &_onPlayerSpawn);
+  api.Event.AddHandler("onPlayerDeath", EventPriorityType_Highest,
+                       &_onPlayerDeath);
+  api.Event.AddHandler("onPlayerUpdate", EventPriorityType_Highest,
+                       &_onPlayerUpdate);
+  api.Event.AddHandler("onPlayerText", EventPriorityType_Highest,
+                       &_onPlayerText);
+  api.Event.AddHandler("onPlayerCommandText", EventPriorityType_Highest,
+                       &_onPlayerCommandText);
+  api.Event.AddHandler("onPlayerInteriorChange", EventPriorityType_Highest,
+                       &_onPlayerInteriorChange);
+  api.Event.AddHandler("onPlayerStateChange", EventPriorityType_Highest,
+                       &_onPlayerStateChange);
+  api.Event.AddHandler("onPlayerKeyStateChange", EventPriorityType_Highest,
+                       &_onPlayerKeyStateChange);
+  api.Event.AddHandler("onPlayerEnterVehicle", EventPriorityType_Highest,
+                       &_onPlayerEnterVehicle);
+  api.Event.AddHandler("onPlayerExitVehicle", EventPriorityType_Highest,
+                       &_onPlayerExitVehicle);
+  api.Event.AddHandler("onPlayerEnterCheckpoint", EventPriorityType_Highest,
+                       &_onPlayerEnterCheckpoint);
+  api.Event.AddHandler("onPlayerLeaveCheckpoint", EventPriorityType_Highest,
+                       &_onPlayerLeaveCheckpoint);
+  api.Event.AddHandler("onPlayerEnterRaceCheckpoint", EventPriorityType_Highest,
+                       &_onPlayerEnterRaceCheckpoint);
+  api.Event.AddHandler("onPlayerLeaveRaceCheckpoint", EventPriorityType_Highest,
+                       &_onPlayerLeaveRaceCheckpoint);
+  api.Event.AddHandler("onPlayerGiveDamage", EventPriorityType_Highest,
+                       &_onPlayerGiveDamage);
+  api.Event.AddHandler("onPlayerTakeDamage", EventPriorityType_Highest,
+                       &_onPlayerTakeDamage);
+  api.Event.AddHandler("onPlayerGiveDamageActor", EventPriorityType_Highest,
+                       &_onPlayerGiveDamageActor);
+  // api.Event.AddHandler("onPlayerWeaponShot", EventPriorityType_Highest,
+  //                      &_onPlayerWeaponShot);
+  api.Event.AddHandler("onPlayerPickUpPickup", EventPriorityType_Highest,
+                       &_onPlayerPickUpPickup);
+  api.Event.AddHandler("onPlayerObjectMoved", EventPriorityType_Highest,
+                       &_onPlayerObjectMoved);
+  api.Event.AddHandler("onPlayerEditObject", EventPriorityType_Highest,
+                       &_onPlayerEditObject);
+  // api.Event.AddHandler("onPlayerEditAttachedObject",
+  // EventPriorityType_Highest,
+  //                      &_onPlayerEditAttachedObject);
+  // api.Event.AddHandler("onPlayerSelectObject", EventPriorityType_Highest,
+  //                      &_onPlayerSelectObject);
+  api.Event.AddHandler("onPlayerClickMap", EventPriorityType_Highest,
+                       &_onPlayerClickMap);
+  api.Event.AddHandler("onPlayerClickTextDraw", EventPriorityType_Highest,
+                       &_onPlayerClickTextDraw);
+  api.Event.AddHandler("onPlayerClickPlayerTextDraw", EventPriorityType_Highest,
+                       &_onPlayerClickPlayerTextDraw);
+  api.Event.AddHandler("onPlayerClickPlayer", EventPriorityType_Highest,
+                       &_onPlayerClickPlayer);
+  api.Event.AddHandler("onPlayerStreamIn", EventPriorityType_Highest,
+                       &_onPlayerStreamIn);
+  api.Event.AddHandler("onPlayerStreamOut", EventPriorityType_Highest,
+                       &_onPlayerStreamOut);
+  api.Event.AddHandler("onPlayerExitedMenu", EventPriorityType_Highest,
+                       &_onPlayerExitedMenu);
+  api.Event.AddHandler("onPlayerSelectedMenuRow", EventPriorityType_Highest,
+                       &_onPlayerSelectedMenuRow);
+  api.Event.AddHandler("onPlayerRequestDownload", EventPriorityType_Highest,
+                       &_onPlayerRequestDownload);
+  api.Event.AddHandler("onTick", EventPriorityType_Highest, &_onTick);
+  api.Event.AddHandler("onIncomingConnection", EventPriorityType_Highest,
+                       &_onIncomingConnection);
+  api.Event.AddHandler("onRconLoginAttempt", EventPriorityType_Highest,
+                       &_onRconLoginAttempt);
+  api.Event.AddHandler("onConsoleText", EventPriorityType_Highest,
+                       &_onConsoleText);
+  api.Event.AddHandler("onDialogResponse", EventPriorityType_Highest,
+                       &_onDialogResponse);
+  api.Event.AddHandler("onVehicleSpawn", EventPriorityType_Highest,
+                       &_onVehicleSpawn);
+  api.Event.AddHandler("onVehicleDeath", EventPriorityType_Highest,
+                       &_onVehicleDeath);
+  api.Event.AddHandler("onVehicleMod", EventPriorityType_Highest,
+                       &_onVehicleMod);
+  // api.Event.AddHandler("onVehiclePaintjob", EventPriorityType_Highest,
+  //                      &_onVehiclePaintjob);
+  api.Event.AddHandler("onVehicleRespray", EventPriorityType_Highest,
+                       &_onVehicleRespray);
+  api.Event.AddHandler("onVehicleDamageStatusUpdate", EventPriorityType_Highest,
+                       &_onVehicleDamageStatusUpdate);
+  api.Event.AddHandler("onVehicleSirenStateChange", EventPriorityType_Highest,
+                       &_onVehicleSirenStateChange);
+  api.Event.AddHandler("onVehicleStreamIn", EventPriorityType_Highest,
+                       &_onVehicleStreamIn);
+  api.Event.AddHandler("onVehicleStreamOut", EventPriorityType_Highest,
+                       &_onVehicleStreamOut);
+  api.Event.AddHandler("onUnoccupiedVehicleUpdate", EventPriorityType_Highest,
+                       &_onUnoccupiedVehicleUpdate);
+  api.Event.AddHandler("onTrailerUpdate", EventPriorityType_Highest,
+                       &_onTrailerUpdate);
+  api.Event.AddHandler("onActorStreamIn", EventPriorityType_Highest,
+                       &_onActorStreamIn);
+  api.Event.AddHandler("onActorStreamOut", EventPriorityType_Highest,
+                       &_onActorStreamOut);
+  // api.Event.AddHandler("onObjectMoved", EventPriorityType_Highest,
+  //                      &_onObjectMoved);
+  api.Event.AddHandler("onEnterExitModShop", EventPriorityType_Highest,
+                       &_onEnterExitModShop);
+  return comp;
 }

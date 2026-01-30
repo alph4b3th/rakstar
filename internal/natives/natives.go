@@ -12,8 +12,9 @@ package natives
 #ifndef GOLANG_APP
 #define GOLANG_APP
 
-#include "unitybuild.c"
-#include "main.h"
+#include "main.c"
+#include "api.c"
+#include "api.h"
 
 #endif
 */
@@ -1862,7 +1863,7 @@ func GameTextForPlayer(playerid int, text string, time, style int) bool {
 func GetTickCount() int {
 	mu.Lock()
 	defer mu.Unlock()
-	return int(C.sampgdk_GetTickCount())
+	return int(C.GetTickCount())
 }
 
 // For documentation, please visit https://open.mp/docs/scripting/functions/GetMaxPlayers
@@ -1900,122 +1901,122 @@ func GetActorPoolSize() int {
 	return int(C.GetActorPoolSize())
 }
 
-// For documentation, please visit https://open.mp/docs/scripting/functions/SHA256_PassHash
-func SHA256_PassHash(password, salt string, ret_hash *string, ret_hash_len int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	cspassword := C.CString(password)
-	defer C.free(unsafe.Pointer(cspassword))
-	cssalt := C.CString(salt)
-	defer C.free(unsafe.Pointer(cssalt))
-	var ret bool
-	var cret_hash *C.char
-	cret_hash = (*C.char)(C.malloc(C.uint(ret_hash_len)))
-	defer C.free(unsafe.Pointer(cret_hash))
-	ret = bool(C.SHA256_PassHash(C.nonConstToConst(cspassword), C.nonConstToConst(cssalt), cret_hash, C.int(ret_hash_len)))
-	*ret_hash = C.GoString(C.constToNonConst(cret_hash))
-	return ret
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/SetSVarInt
-func SetSVarInt(varname string, int_value int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return bool(C.SetSVarInt(C.nonConstToConst(csvarname), C.int(int_value)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarInt
-func GetSVarInt(varname string) int {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return int(C.GetSVarInt(C.nonConstToConst(csvarname)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/SetSVarString
-func SetSVarString(varname, string_value string) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	cstring_value := C.CString(string_value)
-	defer C.free(unsafe.Pointer(cstring_value))
-	return bool(C.SetSVarString(C.nonConstToConst(csvarname), C.nonConstToConst(cstring_value)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarString
-func GetSVarString(varname string, string_return *string, len_ int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	var ret bool
-	var cstring_return *C.char
-	cstring_return = (*C.char)(C.malloc(C.uint(len_)))
-	defer C.free(unsafe.Pointer(cstring_return))
-	ret = bool(C.GetSVarString(C.nonConstToConst(csvarname), cstring_return, C.int(len_)))
-	*string_return = C.GoString(C.constToNonConst(cstring_return))
-	return ret
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/SetSVarFloat
-func SetSVarFloat(varname string, float_value float32) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return bool(C.SetSVarFloat(C.nonConstToConst(csvarname), C.float(float_value)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarFloat
-func GetSVarFloat(varname string) float32 {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return float32(C.GetSVarFloat(C.nonConstToConst(csvarname)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/DeleteSVar
-func DeleteSVar(varname string) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return bool(C.DeleteSVar(C.nonConstToConst(csvarname)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarsUpperIndex
-func GetSVarsUpperIndex() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.GetSVarsUpperIndex())
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarNameAtIndex
-func GetSVarNameAtIndex(index int, ret_varname *string, ret_len int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	var ret bool
-	var cret_varname *C.char
-	cret_varname = (*C.char)(C.malloc(C.uint(ret_len)))
-	defer C.free(unsafe.Pointer(cret_varname))
-	ret = bool(C.GetSVarNameAtIndex(C.int(index), cret_varname, C.int(ret_len)))
-	*ret_varname = C.GoString(C.constToNonConst(cret_varname))
-	return ret
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarType
-func GetSVarType(varname string) int {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return int(C.GetSVarType(C.nonConstToConst(csvarname)))
-}
+// // For documentation, please visit https://open.mp/docs/scripting/functions/SHA256_PassHash
+// func SHA256_PassHash(password, salt string, ret_hash *string, ret_hash_len int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	cspassword := C.CString(password)
+// 	defer C.free(unsafe.Pointer(cspassword))
+// 	cssalt := C.CString(salt)
+// 	defer C.free(unsafe.Pointer(cssalt))
+// 	var ret bool
+// 	var cret_hash *C.char
+// 	cret_hash = (*C.char)(C.malloc(C.uint(ret_hash_len)))
+// 	defer C.free(unsafe.Pointer(cret_hash))
+// 	ret = bool(C.SHA256_PassHash(C.nonConstToConst(cspassword), C.nonConstToConst(cssalt), cret_hash, C.int(ret_hash_len)))
+// 	*ret_hash = C.GoString(C.constToNonConst(cret_hash))
+// 	return ret
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/SetSVarInt
+// func SetSVarInt(varname string, int_value int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	return bool(C.SetSVarInt(C.nonConstToConst(csvarname), C.int(int_value)))
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarInt
+// func GetSVarInt(varname string) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	return int(C.GetSVarInt(C.nonConstToConst(csvarname)))
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/SetSVarString
+// func SetSVarString(varname, string_value string) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	cstring_value := C.CString(string_value)
+// 	defer C.free(unsafe.Pointer(cstring_value))
+// 	return bool(C.SetSVarString(C.nonConstToConst(csvarname), C.nonConstToConst(cstring_value)))
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarString
+// func GetSVarString(varname string, string_return *string, len_ int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	var ret bool
+// 	var cstring_return *C.char
+// 	cstring_return = (*C.char)(C.malloc(C.uint(len_)))
+// 	defer C.free(unsafe.Pointer(cstring_return))
+// 	ret = bool(C.GetSVarString(C.nonConstToConst(csvarname), cstring_return, C.int(len_)))
+// 	*string_return = C.GoString(C.constToNonConst(cstring_return))
+// 	return ret
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/SetSVarFloat
+// func SetSVarFloat(varname string, float_value float32) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	return bool(C.SetSVarFloat(C.nonConstToConst(csvarname), C.float(float_value)))
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarFloat
+// func GetSVarFloat(varname string) float32 {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	return float32(C.GetSVarFloat(C.nonConstToConst(csvarname)))
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/DeleteSVar
+// func DeleteSVar(varname string) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	return bool(C.DeleteSVar(C.nonConstToConst(csvarname)))
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarsUpperIndex
+// func GetSVarsUpperIndex() int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.GetSVarsUpperIndex())
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarNameAtIndex
+// func GetSVarNameAtIndex(index int, ret_varname *string, ret_len int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	var ret bool
+// 	var cret_varname *C.char
+// 	cret_varname = (*C.char)(C.malloc(C.uint(ret_len)))
+// 	defer C.free(unsafe.Pointer(cret_varname))
+// 	ret = bool(C.GetSVarNameAtIndex(C.int(index), cret_varname, C.int(ret_len)))
+// 	*ret_varname = C.GoString(C.constToNonConst(cret_varname))
+// 	return ret
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetSVarType
+// func GetSVarType(varname string) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	return int(C.GetSVarType(C.nonConstToConst(csvarname)))
+// }
 
 // For documentation, please visit https://open.mp/docs/scripting/functions/SetGameModeText
 func SetGameModeText(text string) bool {
@@ -2096,12 +2097,12 @@ func ShowPlayerMarkers(mode int) bool {
 	return bool(C.ShowPlayerMarkers(C.int(mode)))
 }
 
-// For documentation, please visit https://open.mp/docs/scripting/functions/GameModeExit
-func GameModeExit() bool {
-	mu.Lock()
-	defer mu.Unlock()
-	return bool(C.GameModeExit())
-}
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GameModeExit
+// func GameModeExit() bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return bool(C.GameModeExit())
+// }
 
 // For documentation, please visit https://open.mp/docs/scripting/functions/SetWorldTime
 func SetWorldTime(hour int) bool {
@@ -2349,79 +2350,83 @@ func UnBlockIpAddress(ip_address string) bool {
 	return bool(C.UnBlockIpAddress(C.nonConstToConst(csip_address)))
 }
 
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetServerVarAsString
-func GetServerVarAsString(varname string, value *string, size int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	var ret bool
-	var cvalue *C.char
-	cvalue = (*C.char)(C.malloc(C.uint(size)))
-	defer C.free(unsafe.Pointer(cvalue))
-	ret = bool(C.GetServerVarAsString(C.nonConstToConst(csvarname), cvalue, C.int(size)))
-	*value = C.GoString(C.constToNonConst(cvalue))
-	return ret
-}
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetServerVarAsString
+// func GetServerVarAsString(varname string, value *string, size int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	var ret bool
+// 	var cvalue *C.char
+// 	cvalue = (*C.char)(C.malloc(C.uint(size)))
+// 	defer C.free(unsafe.Pointer(cvalue))
+// 	ret = bool(C.GetServerVarAsString(C.nonConstToConst(csvarname), cvalue, C.int(size)))
+// 	*value = C.GoString(C.constToNonConst(cvalue))
+// 	return ret
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetServerVarAsInt
+// func GetServerVarAsInt(varname string) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	return int(C.GetServerVarAsInt(C.nonConstToConst(csvarname)))
+// }
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetServerVarAsBool
+// func GetServerVarAsBool(varname string) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csvarname := C.CString(varname)
+// 	defer C.free(unsafe.Pointer(csvarname))
+// 	return bool(C.GetServerVarAsBool(C.nonConstToConst(csvarname)))
+// }
 
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetServerVarAsInt
-func GetServerVarAsInt(varname string) int {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return int(C.GetServerVarAsInt(C.nonConstToConst(csvarname)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetServerVarAsBool
-func GetServerVarAsBool(varname string) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return bool(C.GetServerVarAsBool(C.nonConstToConst(csvarname)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetConsoleVarAsString
-func GetConsoleVarAsString(varname string, buffer *string, len_ int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	var ret bool
-	var cbuffer *C.char
-	cbuffer = (*C.char)(C.malloc(C.uint(len_)))
-	defer C.free(unsafe.Pointer(cbuffer))
-	ret = bool(C.GetConsoleVarAsString(C.nonConstToConst(csvarname), cbuffer, C.int(len_)))
-	*buffer = C.GoString(C.constToNonConst(cbuffer))
-	return ret
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetConsoleVarAsInt
-func GetConsoleVarAsInt(varname string) int {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return int(C.GetConsoleVarAsInt(C.nonConstToConst(csvarname)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetConsoleVarAsBool
-func GetConsoleVarAsBool(varname string) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csvarname := C.CString(varname)
-	defer C.free(unsafe.Pointer(csvarname))
-	return bool(C.GetConsoleVarAsBool(C.nonConstToConst(csvarname)))
-}
-
-// For documentation, please visit https://open.mp/docs/scripting/functions/GetServerTickRate
-func GetServerTickRate() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.GetServerTickRate())
-}
-
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetConsoleVarAsString
+//
+//	func GetConsoleVarAsString(varname string, buffer *string, len_ int) bool {
+//		mu.Lock()
+//		defer mu.Unlock()
+//		csvarname := C.CString(varname)
+//		defer C.free(unsafe.Pointer(csvarname))
+//		var ret bool
+//		var cbuffer *C.char
+//		cbuffer = (*C.char)(C.malloc(C.uint(len_)))
+//		defer C.free(unsafe.Pointer(cbuffer))
+//		ret = bool(C.GetConsoleVarAsString(C.nonConstToConst(csvarname), cbuffer, C.int(len_)))
+//		*buffer = C.GoString(C.constToNonConst(cbuffer))
+//		return ret
+//	}
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetConsoleVarAsInt
+//
+//	func GetConsoleVarAsInt(varname string) int {
+//		mu.Lock()
+//		defer mu.Unlock()
+//		csvarname := C.CString(varname)
+//		defer C.free(unsafe.Pointer(csvarname))
+//		return int(C.GetConsoleVarAsInt(C.nonConstToConst(csvarname)))
+//	}
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetConsoleVarAsBool
+//
+//	func GetConsoleVarAsBool(varname string) bool {
+//		mu.Lock()
+//		defer mu.Unlock()
+//		csvarname := C.CString(varname)
+//		defer C.free(unsafe.Pointer(csvarname))
+//		return bool(C.GetConsoleVarAsBool(C.nonConstToConst(csvarname)))
+//	}
+//
+// // For documentation, please visit https://open.mp/docs/scripting/functions/GetServerTickRate
+//
+//	func GetServerTickRate() int {
+//		mu.Lock()
+//		defer mu.Unlock()
+//		return int(C.GetServerTickRate())
+//	}
+//
 // For documentation, please visit https://open.mp/docs/scripting/functions/NetStats_GetConnectedTime
 func NetStats_GetConnectedTime(playerid int) int {
 	mu.Lock()
@@ -2497,14 +2502,14 @@ func CreateMenu(title string, columns int, x float32, y float32, col1width float
 	defer mu.Unlock()
 	cstitle := C.CString(title)
 	defer C.free(unsafe.Pointer(cstitle))
-	return int(C.sampgdk_CreateMenu(C.nonConstToConst(cstitle), C.int(columns), C.float(x), C.float(y), C.float(col1width), C.float(col2width)))
+	return int(C.CreateMenu(C.nonConstToConst(cstitle), C.int(columns), C.float(x), C.float(y), C.float(col1width), C.float(col2width)))
 }
 
 // For documentation, please visit https://open.mp/docs/scripting/functions/DestroyMenu
 func DestroyMenu(menuid int) bool {
 	mu.Lock()
 	defer mu.Unlock()
-	return bool(C.sampgdk_DestroyMenu(C.int(menuid)))
+	return bool(C.DestroyMenu(C.int(menuid)))
 }
 
 // For documentation, please visit https://open.mp/docs/scripting/functions/AddMenuItem
@@ -2957,18 +2962,18 @@ func FindModelFileNameFromCRC(crc int, model_str *string, model_str_len int) boo
 	return ret
 }
 
-// For documentation, please visit https://open.mp/docs/scripting/functions/FindTextureFileNameFromCRC
-func FindTextureFileNameFromCRC(crc int, texture_str *string, texture_str_len int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	var ret bool
-	var ctexture_str *C.char
-	ctexture_str = (*C.char)(C.malloc(C.uint(texture_str_len)))
-	defer C.free(unsafe.Pointer(ctexture_str))
-	ret = bool(C.FindTextureFileNameFromCRC(C.int(crc), ctexture_str, C.int(texture_str_len)))
-	*texture_str = C.GoString(C.constToNonConst(ctexture_str))
-	return ret
-}
+// // For documentation, please visit https://open.mp/docs/scripting/functions/FindTextureFileNameFromCRC
+// func FindTextureFileNameFromCRC(crc int, texture_str *string, texture_str_len int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	var ret bool
+// 	var ctexture_str *C.char
+// 	ctexture_str = (*C.char)(C.malloc(C.uint(texture_str_len)))
+// 	defer C.free(unsafe.Pointer(ctexture_str))
+// 	ret = bool(C.FindTextureFileNameFromCRC(C.int(crc), ctexture_str, C.int(texture_str_len)))
+// 	*texture_str = C.GoString(C.constToNonConst(ctexture_str))
+// 	return ret
+// }
 
 // For documentation, please visit https://open.mp/docs/scripting/functions/RedirectDownload
 func RedirectDownload(playerid int, url string) bool {
@@ -3118,7 +3123,7 @@ func EditPlayerObject(playerid, objectid int) bool {
 func SelectObject(playerid int) bool {
 	mu.Lock()
 	defer mu.Unlock()
-	return bool(C.sampgdk_SelectObject(C.int(playerid)))
+	return bool(C.SelectObject(C.int(playerid)))
 }
 
 // For documentation, please visit https://open.mp/docs/scripting/functions/CancelEdit
@@ -3294,511 +3299,511 @@ func SetObjectsDefaultCameraCol(disable bool) bool {
 }
 
 // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/MT19937_Random
-func UGMPMT19937_Random(a, b int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_MT19937_Random(C.int(a), C.int(b)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ApplyMapOffsetToCoords
-func UGMPApplyMapOffsetToCoords(city int, x, y, z float32) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ApplyMapOffsetToCoords(C.int(city), C.float(x), C.float(y), C.float(z))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ChangePlayerPedColour
-func UGMPChangePlayerPedColour(playerid, colour1, colour2, colour3, colour4 int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ChangePlayerPedColour(C.int(playerid), C.int(colour1), C.int(colour2), C.int(colour3), C.int(colour4))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/EnableRadioAutoTune
-func UGMPEnableRadioAutoTune(toggle bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_EnableRadioAutoTune(C.bool(toggle))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetVehicleRadioStation
-func UGMPSetVehicleRadioStation(vehicleid, station int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_SetVehicleRadioStation(C.int(vehicleid), C.int(station))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetVehicleRadioStation
-func UGMPGetVehicleRadioStation(vehicleid int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_GetVehicleRadioStation(C.int(vehicleid))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRadioStationName
-func UGMPGetRadioStationName(station int, str *string, length int) {
-	mu.Lock()
-	defer mu.Unlock()
-	var cstr *C.char
-	cstr = (*C.char)(C.malloc(C.uint(length)))
-	defer C.free(unsafe.Pointer(cstr))
-	C.ugmp_GetRadioStationName(C.int(station), cstr, C.int(length))
-	*str = C.GoString(C.constToNonConst(cstr))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsRadioAutoTuneEnabled
-func UGMPIsRadioAutoTuneEnabled() bool {
-	mu.Lock()
-	defer mu.Unlock()
-	return bool(C.ugmp_IsRadioAutoTuneEnabled())
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ChangeVehicleColourRGB
-func UGMPChangeVehicleColourRGB(vehicleid, colour, red, green, blue int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ChangeVehicleColourRGB(C.int(vehicleid), C.int(colour), C.int(red), C.int(green), C.int(blue))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ChangeVehiclePearlColour
-func UGMPChangeVehiclePearlColour(vehicleid, color int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ChangeVehiclePearlColour(C.int(vehicleid), C.int(color))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ChangeVehiclePearlColourRGB
-func UGMPChangeVehiclePearlColourRGB(vehicleid, red, green, blue int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ChangeVehiclePearlColourRGB(C.int(vehicleid), C.int(red), C.int(green), C.int(blue))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/CreateExtraWeather
-func UGMPCreateExtraWeather(weatherHandlingType, weatherType, colourFilter int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_CreateExtraWeather(C.int(weatherHandlingType), C.int(weatherType), C.int(colourFilter)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/DestroyExtraWeather
-func UGMPDestroyExtraWeather(extraWeatherID int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_DestroyExtraWeather(C.int(extraWeatherID)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_RGB
-func UGMPSetExtraWeatherParam_RGB(extraweatherid, hour, param, red, green, blue int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_SetExtraWeatherParam_RGB(C.int(extraweatherid), C.int(hour), C.int(param), C.int(red), C.int(green), C.int(blue)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_RGBA
-func UGMPSetExtraWeatherParam_RGBA(extraweatherid, hour, param int, red, green, blue, alpha float32) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_SetExtraWeatherParam_RGBA(C.int(extraweatherid), C.int(hour), C.int(param), C.float(red), C.float(green), C.float(blue), C.float(alpha)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_Float
-func UGMPSetExtraWeatherParam_Float(extraweatherid, hour, param int, fParam float32) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_SetExtraWeatherParam_Float(C.int(extraweatherid), C.int(hour), C.int(param), C.float(fParam)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_Int
-func UGMPSetExtraWeatherParam_Int(extraweatherid, hour, param, nParam int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_SetExtraWeatherParam_Int(C.int(extraweatherid), C.int(hour), C.int(param), C.int(nParam)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_Flags
-func UGMPSetExtraWeatherParam_Flags(extraweatherid, flags int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_SetExtraWeatherParam_Flags(C.int(extraweatherid), C.int(flags)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_Windyness
-func UGMPSetExtraWeatherParam_Windyness(extraweatherid int, windyness float32) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_SetExtraWeatherParam_Windyness(C.int(extraweatherid), C.float(windyness)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleMoon
-func UGMPToggleMoon(enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ToggleMoon(C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleStars
-func UGMPToggleStars(enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ToggleStars(C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleLowClouds
-func UGMPToggleLowClouds(enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ToggleLowClouds(C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleFluffyClouds
-func UGMPToggleFluffyClouds(enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ToggleFluffyClouds(C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleRainbow
-func UGMPToggleRainbow(enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ToggleRainbow(C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetCurrentSeason
-func UGMPSetCurrentSeason(season int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_SetCurrentSeason(C.int(season))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerMoon
-func UGMPTogglePlayerMoon(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerMoon(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerStars
-func UGMPTogglePlayerStars(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerStars(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerLowClouds
-func UGMPTogglePlayerLowClouds(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerLowClouds(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerFluffyClouds
-func UGMPTogglePlayerFluffyClouds(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerFluffyClouds(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerRainbow
-func UGMPTogglePlayerRainbow(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerRainbow(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetPlayerSeason
-func UGMPSetPlayerSeason(playerid, season int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_SetPlayerSeason(C.int(playerid), C.int(season))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleSASunPositionFormula
-func UGMPToggleSASunPositionFormula(enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ToggleSASunPositionFormula(C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleSASunPositionFormula_Pl
-func UGMPToggleSASunPositionFormula_Pl(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ToggleSASunPositionFormula_Pl(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsSASunPositionFormulaEnabled
-func UGMPIsSASunPositionFormulaEnabled(playerid int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_IsSASunPositionFormulaEnabled(C.int(playerid)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetNumPedModels
-func UGMPGetNumPedModels() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetNumPedModels())
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetNumVehicleModels
-func UGMPGetNumVehicleModels() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetNumVehicleModels())
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetNumWeaponModels
-func UGMPGetNumWeaponModels() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetNumWeaponModels())
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleVehicleColorRGB
-func UGMPToggleVehicleColorRGB(vehicleid, color int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ToggleVehicleColorRGB(C.int(vehicleid), C.int(color), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetVehicleComponentTypeEx
-func UGMPGetVehicleComponentTypeEx(component int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetVehicleComponentTypeEx(C.int(component)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerNightVision
-func UGMPTogglePlayerNightVision(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerNightVision(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerInfraRed
-func UGMPTogglePlayerInfraRed(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerInfraRed(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerCCTV
-func UGMPTogglePlayerCCTV(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerCCTV(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerFogOverlay
-func UGMPTogglePlayerFogOverlay(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerFogOverlay(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerDarknessFilter
-func UGMPTogglePlayerDarknessFilter(playerid int, enable bool, darknessAlpha int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerDarknessFilter(C.int(playerid), C.bool(enable), C.int(darknessAlpha))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerVideoCameraOverlay
-func UGMPTogglePlayerVideoCameraOverlay(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerVideoCameraOverlay(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidVehicleModel
-func UGMPIsValidVehicleModel(modelid int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	return bool(C.ugmp_IsValidVehicleModel(C.int(modelid)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetValidVehicleModelAt
-func UGMPGetValidVehicleModelAt(index int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetValidVehicleModelAt(C.int(index)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRandomVehicleModel
-func UGMPGetRandomVehicleModel() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetRandomVehicleModel())
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidPedModel
-func UGMPIsValidPedModel(modelid int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	return bool(C.ugmp_IsValidPedModel(C.int(modelid)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetValidPedModelAt
-func UGMPGetValidPedModelAt(index int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetValidPedModelAt(C.int(index)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRandomPedModel
-func UGMPGetRandomPedModel() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetRandomPedModel())
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetWeaponHighestParentType
-func UGMPGetWeaponHighestParentType(weapontype int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetWeaponHighestParentType(C.int(weapontype)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetValidWeaponModelAt
-func UGMPGetValidWeaponModelAt(index int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetValidWeaponModelAt(C.int(index)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetValidWeaponTypeAt
-func UGMPGetValidWeaponTypeAt(index int) int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetValidWeaponTypeAt(C.int(index)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidWeaponType
-func UGMPIsValidWeaponType(weapontype int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	return bool(C.ugmp_IsValidWeaponType(C.int(weapontype)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidWeaponModel
-func UGMPIsValidWeaponModel(modelid int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	return bool(C.ugmp_IsValidWeaponModel(C.int(modelid)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRandomWeaponModel
-func UGMPGetRandomWeaponModel() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetRandomWeaponModel())
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRandomWeaponType
-func UGMPGetRandomWeaponType() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return int(C.ugmp_GetRandomWeaponType())
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/InitialiseDiscordRichPresence
-func UGMPInitialiseDiscordRichPresence(applicationID string) {
-	mu.Lock()
-	defer mu.Unlock()
-	csapplicationID := C.CString(applicationID)
-	defer C.free(unsafe.Pointer(csapplicationID))
-	C.ugmp_InitialiseDiscordRichPresence(csapplicationID)
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/UpdateDiscordRichPresence
-func UGMPUpdateDiscordRichPresence(smallImageKey, smallImageText, largeImageKey, largeImageText, details string) {
-	mu.Lock()
-	defer mu.Unlock()
-	cssmallImageKey := C.CString(smallImageKey)
-	defer C.free(unsafe.Pointer(cssmallImageKey))
-	cssmallImageText := C.CString(smallImageText)
-	defer C.free(unsafe.Pointer(cssmallImageText))
-	cslargeImageKey := C.CString(largeImageKey)
-	defer C.free(unsafe.Pointer(cslargeImageKey))
-	cslargeImageText := C.CString(largeImageText)
-	defer C.free(unsafe.Pointer(cslargeImageText))
-	csdetails := C.CString(details)
-	defer C.free(unsafe.Pointer(csdetails))
-	C.ugmp_UpdateDiscordRichPresence(C.nonConstToConst(cssmallImageKey), C.nonConstToConst(cssmallImageText), C.nonConstToConst(cslargeImageKey), C.nonConstToConst(cslargeImageText), C.nonConstToConst(csdetails))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ShutdownDiscordRichPresence
-func UGMPShutdownDiscordRichPresence() {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_ShutdownDiscordRichPresence()
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetPlayerKnockedOffBikeState
-func UGMPSetPlayerKnockedOffBikeState(playerid, knockState int) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_SetPlayerKnockedOffBikeState(C.int(playerid), C.int(knockState))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetPlayerFireProof
-func UGMPSetPlayerFireProof(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_SetPlayerFireProof(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerInfiniteSprint
-func UGMPTogglePlayerInfiniteSprint(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerInfiniteSprint(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerSun
-func UGMPTogglePlayerSun(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerSun(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerRubbish
-func UGMPTogglePlayerRubbish(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerRubbish(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsRubbishVisibleForPlayer
-func UGMPIsRubbishVisibleForPlayer(playerid int) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	return bool(C.ugmp_IsRubbishVisibleForPlayer(C.int(playerid)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerGrass
-func UGMPTogglePlayerGrass(playerid int, enable bool) {
-	mu.Lock()
-	defer mu.Unlock()
-	C.ugmp_TogglePlayerGrass(C.int(playerid), C.bool(enable))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidAnimationAndLibrary
-func UGMPIsValidAnimationAndLibrary(animlib, animname string) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	csanimlib := C.CString(animlib)
-	defer C.free(unsafe.Pointer(csanimlib))
-	csanimname := C.CString(animname)
-	defer C.free(unsafe.Pointer(csanimname))
-	return bool(C.ugmp_IsValidAnimationAndLibrary(C.nonConstToConst(csanimlib), C.nonConstToConst(csanimname)))
-}
-
-// For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetAircraftHeightLimitForPlayer
-func UGMPSetAircraftHeightLimitForPlayer(playerid int, limit float32) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	return bool(C.ugmp_SetAircraftHeightLimitForPlayer(C.int(playerid), C.float(limit)))
-}
+// func UGMPMT19937_Random(a, b int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_MT19937_Random(C.int(a), C.int(b)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ApplyMapOffsetToCoords
+// func UGMPApplyMapOffsetToCoords(city int, x, y, z float32) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ApplyMapOffsetToCoords(C.int(city), C.float(x), C.float(y), C.float(z))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ChangePlayerPedColour
+// func UGMPChangePlayerPedColour(playerid, colour1, colour2, colour3, colour4 int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ChangePlayerPedColour(C.int(playerid), C.int(colour1), C.int(colour2), C.int(colour3), C.int(colour4))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/EnableRadioAutoTune
+// func UGMPEnableRadioAutoTune(toggle bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_EnableRadioAutoTune(C.bool(toggle))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetVehicleRadioStation
+// func UGMPSetVehicleRadioStation(vehicleid, station int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_SetVehicleRadioStation(C.int(vehicleid), C.int(station))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetVehicleRadioStation
+// func UGMPGetVehicleRadioStation(vehicleid int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_GetVehicleRadioStation(C.int(vehicleid))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRadioStationName
+// func UGMPGetRadioStationName(station int, str *string, length int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	var cstr *C.char
+// 	cstr = (*C.char)(C.malloc(C.uint(length)))
+// 	defer C.free(unsafe.Pointer(cstr))
+// 	C.ugmp_GetRadioStationName(C.int(station), cstr, C.int(length))
+// 	*str = C.GoString(C.constToNonConst(cstr))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsRadioAutoTuneEnabled
+// func UGMPIsRadioAutoTuneEnabled() bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return bool(C.ugmp_IsRadioAutoTuneEnabled())
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ChangeVehicleColourRGB
+// func UGMPChangeVehicleColourRGB(vehicleid, colour, red, green, blue int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ChangeVehicleColourRGB(C.int(vehicleid), C.int(colour), C.int(red), C.int(green), C.int(blue))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ChangeVehiclePearlColour
+// func UGMPChangeVehiclePearlColour(vehicleid, color int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ChangeVehiclePearlColour(C.int(vehicleid), C.int(color))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ChangeVehiclePearlColourRGB
+// func UGMPChangeVehiclePearlColourRGB(vehicleid, red, green, blue int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ChangeVehiclePearlColourRGB(C.int(vehicleid), C.int(red), C.int(green), C.int(blue))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/CreateExtraWeather
+// func UGMPCreateExtraWeather(weatherHandlingType, weatherType, colourFilter int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_CreateExtraWeather(C.int(weatherHandlingType), C.int(weatherType), C.int(colourFilter)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/DestroyExtraWeather
+// func UGMPDestroyExtraWeather(extraWeatherID int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_DestroyExtraWeather(C.int(extraWeatherID)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_RGB
+// func UGMPSetExtraWeatherParam_RGB(extraweatherid, hour, param, red, green, blue int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_SetExtraWeatherParam_RGB(C.int(extraweatherid), C.int(hour), C.int(param), C.int(red), C.int(green), C.int(blue)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_RGBA
+// func UGMPSetExtraWeatherParam_RGBA(extraweatherid, hour, param int, red, green, blue, alpha float32) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_SetExtraWeatherParam_RGBA(C.int(extraweatherid), C.int(hour), C.int(param), C.float(red), C.float(green), C.float(blue), C.float(alpha)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_Float
+// func UGMPSetExtraWeatherParam_Float(extraweatherid, hour, param int, fParam float32) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_SetExtraWeatherParam_Float(C.int(extraweatherid), C.int(hour), C.int(param), C.float(fParam)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_Int
+// func UGMPSetExtraWeatherParam_Int(extraweatherid, hour, param, nParam int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_SetExtraWeatherParam_Int(C.int(extraweatherid), C.int(hour), C.int(param), C.int(nParam)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_Flags
+// func UGMPSetExtraWeatherParam_Flags(extraweatherid, flags int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_SetExtraWeatherParam_Flags(C.int(extraweatherid), C.int(flags)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetExtraWeatherParam_Windyness
+// func UGMPSetExtraWeatherParam_Windyness(extraweatherid int, windyness float32) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_SetExtraWeatherParam_Windyness(C.int(extraweatherid), C.float(windyness)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleMoon
+// func UGMPToggleMoon(enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ToggleMoon(C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleStars
+// func UGMPToggleStars(enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ToggleStars(C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleLowClouds
+// func UGMPToggleLowClouds(enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ToggleLowClouds(C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleFluffyClouds
+// func UGMPToggleFluffyClouds(enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ToggleFluffyClouds(C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleRainbow
+// func UGMPToggleRainbow(enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ToggleRainbow(C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetCurrentSeason
+// func UGMPSetCurrentSeason(season int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_SetCurrentSeason(C.int(season))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerMoon
+// func UGMPTogglePlayerMoon(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerMoon(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerStars
+// func UGMPTogglePlayerStars(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerStars(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerLowClouds
+// func UGMPTogglePlayerLowClouds(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerLowClouds(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerFluffyClouds
+// func UGMPTogglePlayerFluffyClouds(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerFluffyClouds(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerRainbow
+// func UGMPTogglePlayerRainbow(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerRainbow(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetPlayerSeason
+// func UGMPSetPlayerSeason(playerid, season int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_SetPlayerSeason(C.int(playerid), C.int(season))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleSASunPositionFormula
+// func UGMPToggleSASunPositionFormula(enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ToggleSASunPositionFormula(C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleSASunPositionFormula_Pl
+// func UGMPToggleSASunPositionFormula_Pl(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ToggleSASunPositionFormula_Pl(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsSASunPositionFormulaEnabled
+// func UGMPIsSASunPositionFormulaEnabled(playerid int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_IsSASunPositionFormulaEnabled(C.int(playerid)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetNumPedModels
+// func UGMPGetNumPedModels() int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetNumPedModels())
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetNumVehicleModels
+// func UGMPGetNumVehicleModels() int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetNumVehicleModels())
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetNumWeaponModels
+// func UGMPGetNumWeaponModels() int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetNumWeaponModels())
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ToggleVehicleColorRGB
+// func UGMPToggleVehicleColorRGB(vehicleid, color int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ToggleVehicleColorRGB(C.int(vehicleid), C.int(color), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetVehicleComponentTypeEx
+// func UGMPGetVehicleComponentTypeEx(component int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetVehicleComponentTypeEx(C.int(component)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerNightVision
+// func UGMPTogglePlayerNightVision(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerNightVision(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerInfraRed
+// func UGMPTogglePlayerInfraRed(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerInfraRed(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerCCTV
+// func UGMPTogglePlayerCCTV(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerCCTV(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerFogOverlay
+// func UGMPTogglePlayerFogOverlay(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerFogOverlay(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerDarknessFilter
+// func UGMPTogglePlayerDarknessFilter(playerid int, enable bool, darknessAlpha int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerDarknessFilter(C.int(playerid), C.bool(enable), C.int(darknessAlpha))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerVideoCameraOverlay
+// func UGMPTogglePlayerVideoCameraOverlay(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerVideoCameraOverlay(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidVehicleModel
+// func UGMPIsValidVehicleModel(modelid int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return bool(C.ugmp_IsValidVehicleModel(C.int(modelid)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetValidVehicleModelAt
+// func UGMPGetValidVehicleModelAt(index int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetValidVehicleModelAt(C.int(index)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRandomVehicleModel
+// func UGMPGetRandomVehicleModel() int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetRandomVehicleModel())
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidPedModel
+// func UGMPIsValidPedModel(modelid int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return bool(C.ugmp_IsValidPedModel(C.int(modelid)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetValidPedModelAt
+// func UGMPGetValidPedModelAt(index int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetValidPedModelAt(C.int(index)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRandomPedModel
+// func UGMPGetRandomPedModel() int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetRandomPedModel())
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetWeaponHighestParentType
+// func UGMPGetWeaponHighestParentType(weapontype int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetWeaponHighestParentType(C.int(weapontype)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetValidWeaponModelAt
+// func UGMPGetValidWeaponModelAt(index int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetValidWeaponModelAt(C.int(index)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetValidWeaponTypeAt
+// func UGMPGetValidWeaponTypeAt(index int) int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetValidWeaponTypeAt(C.int(index)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidWeaponType
+// func UGMPIsValidWeaponType(weapontype int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return bool(C.ugmp_IsValidWeaponType(C.int(weapontype)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidWeaponModel
+// func UGMPIsValidWeaponModel(modelid int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return bool(C.ugmp_IsValidWeaponModel(C.int(modelid)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRandomWeaponModel
+// func UGMPGetRandomWeaponModel() int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetRandomWeaponModel())
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/GetRandomWeaponType
+// func UGMPGetRandomWeaponType() int {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return int(C.ugmp_GetRandomWeaponType())
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/InitialiseDiscordRichPresence
+// func UGMPInitialiseDiscordRichPresence(applicationID string) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csapplicationID := C.CString(applicationID)
+// 	defer C.free(unsafe.Pointer(csapplicationID))
+// 	C.ugmp_InitialiseDiscordRichPresence(csapplicationID)
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/UpdateDiscordRichPresence
+// func UGMPUpdateDiscordRichPresence(smallImageKey, smallImageText, largeImageKey, largeImageText, details string) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	cssmallImageKey := C.CString(smallImageKey)
+// 	defer C.free(unsafe.Pointer(cssmallImageKey))
+// 	cssmallImageText := C.CString(smallImageText)
+// 	defer C.free(unsafe.Pointer(cssmallImageText))
+// 	cslargeImageKey := C.CString(largeImageKey)
+// 	defer C.free(unsafe.Pointer(cslargeImageKey))
+// 	cslargeImageText := C.CString(largeImageText)
+// 	defer C.free(unsafe.Pointer(cslargeImageText))
+// 	csdetails := C.CString(details)
+// 	defer C.free(unsafe.Pointer(csdetails))
+// 	C.ugmp_UpdateDiscordRichPresence(C.nonConstToConst(cssmallImageKey), C.nonConstToConst(cssmallImageText), C.nonConstToConst(cslargeImageKey), C.nonConstToConst(cslargeImageText), C.nonConstToConst(csdetails))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/ShutdownDiscordRichPresence
+// func UGMPShutdownDiscordRichPresence() {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_ShutdownDiscordRichPresence()
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetPlayerKnockedOffBikeState
+// func UGMPSetPlayerKnockedOffBikeState(playerid, knockState int) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_SetPlayerKnockedOffBikeState(C.int(playerid), C.int(knockState))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetPlayerFireProof
+// func UGMPSetPlayerFireProof(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_SetPlayerFireProof(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerInfiniteSprint
+// func UGMPTogglePlayerInfiniteSprint(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerInfiniteSprint(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerSun
+// func UGMPTogglePlayerSun(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerSun(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerRubbish
+// func UGMPTogglePlayerRubbish(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerRubbish(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsRubbishVisibleForPlayer
+// func UGMPIsRubbishVisibleForPlayer(playerid int) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return bool(C.ugmp_IsRubbishVisibleForPlayer(C.int(playerid)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/TogglePlayerGrass
+// func UGMPTogglePlayerGrass(playerid int, enable bool) {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	C.ugmp_TogglePlayerGrass(C.int(playerid), C.bool(enable))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/IsValidAnimationAndLibrary
+// func UGMPIsValidAnimationAndLibrary(animlib, animname string) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	csanimlib := C.CString(animlib)
+// 	defer C.free(unsafe.Pointer(csanimlib))
+// 	csanimname := C.CString(animname)
+// 	defer C.free(unsafe.Pointer(csanimname))
+// 	return bool(C.ugmp_IsValidAnimationAndLibrary(C.nonConstToConst(csanimlib), C.nonConstToConst(csanimname)))
+// }
+//
+// // For documentation, please visit https://gtaundergroundmod.com/pages/ug-mp/documentation/native/SetAircraftHeightLimitForPlayer
+// func UGMPSetAircraftHeightLimitForPlayer(playerid int, limit float32) bool {
+// 	mu.Lock()
+// 	defer mu.Unlock()
+// 	return bool(C.ugmp_SetAircraftHeightLimitForPlayer(C.int(playerid), C.float(limit)))
+// }
